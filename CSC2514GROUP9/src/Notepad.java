@@ -90,42 +90,6 @@ extends JDialog  {
 		KeyStroke redo_key = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK);
 		txtArea.getInputMap().put(redo_key,doRedo);
 		
-//	    this.addKeyListener(new KeyAdapter(){
-//	    	public void keyPressed(KeyEvent e) {                
-//            if(e.isControlDown() && e.getKeyChar() != 'v' && e.getKeyCode() == 86){
-//	             e.consume();
-//	             int line_count=parent.getPDFCount();
-//	    	     String title=PDF_TITLES[line_count-1];
-//	    	     if(!parent.getPDFUserDecision()) {
-//	    	    	 repetitive_count++;
-//	    	    	 last_step=txtArea.getText();
-//	    	 		 txtArea.append(title+"\n");
-//		    	     if(repetitive_count==2) {
-//		    	    	 UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
-//		    	    	 UIManager.put("OptionPane.buttonFont", new Font("System", Font.PLAIN, 30));
-//		    	    	 if (JOptionPane.showConfirmDialog(null,
-//	                             "Repetitive task detected, do you want to automate it?",
-//	                             "Automate Request", 
-//	                             JOptionPane.YES_NO_OPTION,
-//	                             JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-//		    	    		    // yes option
-//		    	    		 	parent.setPDFUserDecision(true);
-//		    	    		} else {
-//		    	    		    // no option
-//		    	    		 	parent.setPDFUserDecision(false);
-//		    	    		}
-//		    	     }	    	    	 
-//	    	     }else {
-//	    	    	 last_step=txtArea.getText();
-//	    	 		 txtArea.append(title+"\n");
-//	    	     }
-//    	     }
-//            
-//            if(e.isControlDown() && e.getKeyChar() != 'z' && e.getKeyCode() == 86){
-//            	txtArea.setText(last_step);
-//            }
-//          }    
-//	    });
 	    this.addWindowListener(new java.awt.event.WindowAdapter() {
 	        @Override
 	        public void windowClosing(java.awt.event.WindowEvent e) {

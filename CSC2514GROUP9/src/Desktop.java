@@ -1,16 +1,11 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Desktop
 extends JFrame {
 	public static  Robot robot = null;
 	
-
 	public static final String DESKTOP_IMG="./imgs/desktop.png";
 	public static final Rectangle PDF_FOLDER=new Rectangle(0,173,152,196);
 	public static final Rectangle NOTEPAD_ICON=new Rectangle(1000,1744,70,60);
