@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.LinkedList;
 
 import javax.swing.*;
 
@@ -8,7 +9,6 @@ extends JDialog  {
 
 	public static final String PREFIX="./imgs/notepad";
 	public static final String SURFIX=".png";
-	private static int repetitive_count=0;
  	public static final String PDF1="ERACER: A Database Approach for Statistical Inference and Data Cleaning";
 	public static final String PDF2="KATARA: A Data Cleaning System Powered by KnowledgeBases and Crowdsourcing";
 	public static final String PDF3="Answering Table Queries on the Web using Column Keywords";
@@ -17,7 +17,8 @@ extends JDialog  {
 	public static final String PDF6="Schema Extraction for Tabular Data on the Web *";
 	public static final String PDF7="Stitching Web Tables for Improving Matching Quality";
 	public static final String[] PDF_TITLES= {PDF1,PDF2,PDF3,PDF4,PDF5,PDF6,PDF7};
-	private static String last_step="";
+	private static LinkedList<String> last_step=new LinkedList<String>();
+	private static LinkedList<String> future_step=new LinkedList<String>();
 	
 	public Notepad(Desktop parent) {
 		super(parent);
@@ -32,12 +33,10 @@ extends JDialog  {
 	        	int line_count=parent.getPDFCount();
 	    	     String title=PDF_TITLES[line_count-1];
 	    	     if(!parent.getPDFUserDecision()) {
-	    	    	 repetitive_count++;
-	    	    	 if(!parent.getMultiple()) {
-		    	    	 last_step=txtArea.getText();    	    		 
-	    	    	 }
+	    	    	 parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
+		    	     last_step.addLast(txtArea.getText());
 	    	 		 txtArea.append(title+"\n");
-		    	     if(repetitive_count==2) {
+		    	     if(parent.getRepetitiveCount()==6) {
 		    	    	 UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
 		    	    	 UIManager.put("OptionPane.buttonFont", new Font("System", Font.PLAIN, 30));
 		    	    	 if (JOptionPane.showConfirmDialog(null,
@@ -55,12 +54,11 @@ extends JDialog  {
 		    	    		}
 		    	     }	    	    	 
 	    	     }else {
-	    	    	 if(!parent.getMultiple()) {
-		    	    	 last_step=txtArea.getText();    	    		 
-	    	    	 }
-	    	    	 System.out.println(parent.getPDFCount());
+		    	     last_step.addLast(txtArea.getText());
+	    	    	 System.out.println("Notepad line 58: "+parent.getPDFCount());
 	    	 		 txtArea.append(title+"\n");
 	    	     }
+	    	     future_step=new LinkedList<String>();
 	             
 	      }
 	  };
@@ -68,12 +66,30 @@ extends JDialog  {
 		txtArea.getInputMap().put(key,doClipboard);
 		
 		Action doUndo = new AbstractAction() {
-	        public void actionPerformed(ActionEvent e) {	          
-	        	txtArea.setText(last_step);  
+	        public void actionPerformed(ActionEvent e) {
+	        	String previous_step=last_step.pollLast();
+	        	future_step.addFirst(txtArea.getText());
+	        	txtArea.setText(previous_step);  
 	      }
 	  };
 		KeyStroke undo_key = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK);
 		txtArea.getInputMap().put(undo_key,doUndo);
+		
+		Action doRedo = new AbstractAction() {
+	        public void actionPerformed(ActionEvent e) {
+	        	String next_step;
+	        	if(future_step.size()==1) {
+		        	next_step=future_step.peekFirst();
+	        	}else {
+		        	next_step=future_step.pollFirst();
+	        	}
+	        	last_step.addLast(txtArea.getText());
+	        	txtArea.setText(next_step);  
+	      }
+	  };
+		KeyStroke redo_key = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK);
+		txtArea.getInputMap().put(redo_key,doRedo);
+		
 //	    this.addKeyListener(new KeyAdapter(){
 //	    	public void keyPressed(KeyEvent e) {                
 //            if(e.isControlDown() && e.getKeyChar() != 'v' && e.getKeyCode() == 86){
@@ -110,6 +126,13 @@ extends JDialog  {
 //            }
 //          }    
 //	    });
+	    this.addWindowListener(new java.awt.event.WindowAdapter() {
+	        @Override
+	        public void windowClosing(java.awt.event.WindowEvent e) {
+	            parent.init();
+	            e.getWindow().dispose();
+	        }
+	    });
 		setVisible(true);
 	}
 

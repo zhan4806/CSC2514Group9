@@ -38,7 +38,7 @@ extends JDialog {
 	        	}
 	        	else {
 	        		mousePt = e.getPoint();
-	        		System.out.println("line 40, PDFReader: "+"x:"+mousePt.x+"y:"+mousePt.y);
+	        		System.out.println("line 41, PDFReader: "+"x:"+mousePt.x+"y:"+mousePt.y);
 	        	}
 	        }	    	
 	    });
@@ -58,27 +58,71 @@ extends JDialog {
           }
 	    });
 
+	    this.addWindowListener(new java.awt.event.WindowAdapter() {
+	        @Override
+	        public void windowClosing(java.awt.event.WindowEvent e) {
+   	    	 	parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
+	    	     if(parent.getRepetitiveCount()==6) {
+	    	    	 UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
+	    	    	 UIManager.put("OptionPane.buttonFont", new Font("System", Font.PLAIN, 30));
+	    	    	 if (JOptionPane.showConfirmDialog(null,
+                             "Repetitive task detected, do you want to automate it?",
+                             "Automate Request", 
+                             JOptionPane.YES_NO_OPTION,
+                             JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+	    	    		    // yes option
+	    	    		 	parent.setPDFUserDecision(true);
+	    	    		 	System.out.println(parent.getPDFUserDecision());
+	    	    		} else {
+	    	    		    // no option
+	    	    		 	parent.setPDFUserDecision(false);
+	    	    		 	System.out.println(parent.getPDFUserDecision());
+	    	    		}
+	    	     }	
+	            e.getWindow().dispose();
+	        }
+	    });
+	    
 		setVisible(true);
+		
 		if(auto) {
-		    Robot robot=parent.getRobot();
-	    	robot.mouseMove(0, 0);
-	    	robot.mouseMove(660,70);
-    		System.out.println("line 64, PDFReader: "+MouseInfo.getPointerInfo().getLocation());
-		    robot.mousePress(InputEvent.BUTTON1_MASK);
-	    	robot.mouseMove(0, 0);
-	    	robot.mouseMove(905,145);
-    		System.out.println("line 67, PDFReader: "+MouseInfo.getPointerInfo().getLocation());
-	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
-	    	robot.mouseMove(0, 0);
-	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-	    	robot.mouseMove(200, 200);
-	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-	    	robot.mousePress(InputEvent.BUTTON1_MASK);
-	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
-    	    robot.keyPress(KeyEvent.VK_CONTROL);
-    	    robot.keyPress(KeyEvent.VK_V);
-    	    robot.keyRelease(KeyEvent.VK_V);
-    	    robot.keyRelease(KeyEvent.VK_CONTROL);
+ 	    	Thread one = new Thread() {
+ 	    		public void run() {
+			    	    	try {
+								Thread.sleep(1000);
+				 	   		    Robot robot=parent.getRobot();
+				 	   	    	robot.mouseMove(0, 0);
+				 	   	    	robot.mouseMove(700,80);
+				 	       		System.out.println("line 92, PDFReader: "+MouseInfo.getPointerInfo().getLocation());
+				 	   		    robot.mousePress(InputEvent.BUTTON1_MASK);
+								Thread.sleep(1000);
+				 	   	    	robot.mouseMove(0, 0);
+				 	   	    	robot.mouseMove(905,120);
+				 	       		System.out.println("line 96, PDFReader: "+MouseInfo.getPointerInfo().getLocation());
+				 	   	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
+								Thread.sleep(1000);
+				 	   	    	robot.mouseMove(0, 0);
+				 	   	    	robot.mouseMove(1350,25);
+				 	   	    	robot.mousePress(InputEvent.BUTTON1_MASK);
+				 	   	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
+								Thread.sleep(500);
+				 	   	    	robot.mouseMove(0, 0);
+				 	   	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
+				 	   	    	robot.mouseMove(160, 151);
+				 	   	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
+				 	   	    	robot.mousePress(InputEvent.BUTTON1_MASK);
+				 	   	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
+				 	       	    robot.keyPress(KeyEvent.VK_CONTROL);
+				 	       	    robot.keyPress(KeyEvent.VK_V);
+				 	       	    robot.keyRelease(KeyEvent.VK_V);
+				 	       	    robot.keyRelease(KeyEvent.VK_CONTROL);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+		    			}		 					    	    		 		
+ 	    	};
+ 	    	one.start();
 		}
 		
 	}

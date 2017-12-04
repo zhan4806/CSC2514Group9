@@ -1,10 +1,16 @@
 import java.awt.*;
+import java.awt.event.ComponentListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
 
@@ -47,6 +53,11 @@ extends JDialog {
     private static PDFFolder self;
     public static Desktop PARENT;
     public static Robot robot;
+    private static boolean alt=false;
+    LinkedList<Integer> selected = new LinkedList<Integer>();
+
+	int start=0;
+	int end=0;
     
     public PDFFolder(Desktop parent) throws AWTException {
 		super(parent);
@@ -71,18 +82,19 @@ extends JDialog {
 		        	     //handle double click event.
 		        			parent.setPDFCount(1);
 		        			PDFReader pdfReader=new PDFReader(parent,automation,PDF1_PATH,PDF1_1_PATH);
-		        			lastFileClick=MouseInfo.getPointerInfo().getLocation();
+		        			parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
 	        	     }
 	        	     else if(PDF2_ICON.contains(e.getPoint())) {
 		        	     //handle double click event.
 		        			parent.setPDFCount(2);
 		        			PDFReader pdfReader=new PDFReader(parent,automation,PDF2_PATH,PDF2_1_PATH);
-		        			lastFileClick=MouseInfo.getPointerInfo().getLocation();
+		        			parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
 	        	     }
 	        	     else if(PDF3_ICON.contains(e.getPoint())) {
 		        	     //handle double click event.
 		        			parent.setPDFCount(3);
 		        			PDFReader pdfReader=new PDFReader(parent,automation,PDF3_PATH,PDF3_1_PATH);
+		        			parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
 	        	     }
 	        	     else if(PDF4_ICON.contains(e.getPoint())) {
 		        	     //handle double click event.
@@ -93,16 +105,19 @@ extends JDialog {
 		        	     //handle double click event.
 		        			parent.setPDFCount(5);
 		        			PDFReader pdfReader=new PDFReader(parent,automation,PDF5_PATH,PDF5_1_PATH);
+		        			parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
 	        	     }
 	        	     else if(PDF6_ICON.contains(e.getPoint())) {
 		        	     //handle double click event.
 		        			parent.setPDFCount(6);
 		        			PDFReader pdfReader=new PDFReader(parent,automation,PDF6_PATH,PDF6_1_PATH);
+		        			parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
 	        	     }
 	        	     else if(PDF7_ICON.contains(e.getPoint())) {
 		        	     //handle double click event.
 		        			parent.setPDFCount(7);
 		        			PDFReader pdfReader=new PDFReader(parent,automation,PDF7_PATH,PDF7_1_PATH);
+		        			parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
 	        	     }
 	        	}
 //	        	if (e.getClickCount() == 1 && !e.isConsumed()) {
@@ -165,14 +180,47 @@ extends JDialog {
        	    	 System.out.println("mouseReleased");
 	        	     e.consume();
 	        	    	 if(mousePt.x == e.getX()&&mousePt.y == e.getY()) {
-	        	    		 if(!parent.getMultiple()) {
+	        	    		 if(alt) {
+	        	    			 if(PDF1_ICON.contains(mousePt)) 
+	        	    				 selected.addLast(1);
+	        	    			 if(PDF2_ICON.contains(mousePt)) 
+	        	    				 selected.addLast(2);
+	        	    			 if(PDF3_ICON.contains(mousePt)) 
+	        	    				 selected.addLast(3);
+	        	    			 if(PDF4_ICON.contains(mousePt)) 
+	        	    				 selected.addLast(4);
+	        	    			 if(PDF5_ICON.contains(mousePt)) 
+	        	    				 selected.addLast(5);
+	        	    			 if(PDF6_ICON.contains(mousePt)) 
+	        	    				 selected.addLast(6);
+	        	    			 if(PDF7_ICON.contains(mousePt)) 
+	        	    				 selected.addLast(7);
+	        	    			 
+	        	    		 }
+	        	    		 else {
 	    	        	     boolean automation=parent.getPDFUserDecision();
 		    	        	     if(PDF1_ICON.contains(mousePt)) {
 					        	     //handle double click event.
-				        	    	 	SkipOrDetail();
+			        	    		 if(!parent.getMultiple()) 
+				        	    	 		SkipOrDetail();
 		 		        				parent.setPDFCount(1);
 		 		        				if(parent.getDetails()) {
-		 		        					PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF1_PATH,PDF1_1_PATH);
+		 					    	    	Thread one = new Thread() {
+		 					    	    		public void run() {
+				 		        					PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF1_PATH,PDF1_1_PATH);
+		 								    	    	try {
+		 													Thread.sleep(1000);
+		 													SelectTitle();
+		 												} catch (InterruptedException e) {
+		 													// TODO Auto-generated catch block
+		 													e.printStackTrace();
+		 												} catch (AWTException e) {
+															// TODO Auto-generated catch block
+															e.printStackTrace();
+														}
+		 							    			}		 					    	    		 		
+		 					    	    	};
+		 					    	    	one.start();
 		 		        				}
 		 		        				else {
 		 		        					robot.mouseMove(0, 0);
@@ -190,10 +238,26 @@ extends JDialog {
 				        	     }
 				        	     else if(PDF2_ICON.contains(mousePt)) {
 					        	     //handle double click event.
-				        	    	 	SkipOrDetail();
+			        	    		 if(!parent.getMultiple()) 
+				        	    	 		SkipOrDetail();
 					        			parent.setPDFCount(2);
 					        			if(parent.getDetails()) {
-					        				PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF2_PATH,PDF2_1_PATH);
+		 					    	    	Thread one = new Thread() {
+		 					    	    		public void run() {
+				 		        					PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF2_PATH,PDF2_1_PATH);
+		 								    	    	try {
+		 													Thread.sleep(1000);
+		 													SelectTitle();
+		 												} catch (InterruptedException e) {
+		 													// TODO Auto-generated catch block
+		 													e.printStackTrace();
+		 												} catch (AWTException e) {
+															// TODO Auto-generated catch block
+															e.printStackTrace();
+														}
+		 							    			}		 					    	    		 		
+		 					    	    	};
+		 					    	    	one.start();
 		 		        				}
 		 		        				else {
 		 		        					robot.mouseMove(0, 0);
@@ -210,10 +274,26 @@ extends JDialog {
 					        			
 				        	     }
 				        	     else if(PDF3_ICON.contains(mousePt)) {
-				        	    	 	SkipOrDetail();
+			        	    		 if(!parent.getMultiple()) 
+				        	    	 		SkipOrDetail();
 					        			parent.setPDFCount(3);
 					        			if(parent.getDetails()) {
-					        				PDFReader pdfReader=new PDFReader(parent,automation,PDF3_PATH,PDF3_1_PATH);
+		 					    	    	Thread one = new Thread() {
+		 					    	    		public void run() {
+				 		        					PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF3_PATH,PDF3_1_PATH);
+		 								    	    	try {
+		 													Thread.sleep(1000);
+		 													SelectTitle();
+		 												} catch (InterruptedException e) {
+		 													// TODO Auto-generated catch block
+		 													e.printStackTrace();
+		 												}catch (AWTException e) {
+															// TODO Auto-generated catch block
+															e.printStackTrace();
+														}
+		 							    			}		 					    	    		 		
+		 					    	    	};
+		 					    	    	one.start();
 		 		        				}
 		 		        				else {
 		 		        					robot.mouseMove(0, 0);
@@ -230,10 +310,26 @@ extends JDialog {
 					        			
 				        	     }
 				        	     else if(PDF4_ICON.contains(mousePt)) {
-				        	    	 	SkipOrDetail();
+			        	    		 if(!parent.getMultiple()) 
+				        	    	 		SkipOrDetail();
 					        			parent.setPDFCount(4);
 					        			if(parent.getDetails()) {
-						        			PDFReader pdfReader=new PDFReader(parent,automation,PDF4_PATH,PDF4_1_PATH);
+		 					    	    	Thread one = new Thread() {
+		 					    	    		public void run() {
+				 		        					PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF4_PATH,PDF4_1_PATH);
+		 								    	    	try {
+		 													Thread.sleep(1000);
+		 													SelectTitle();
+		 												} catch (InterruptedException e) {
+		 													// TODO Auto-generated catch block
+		 													e.printStackTrace();
+		 												} catch (AWTException e) {
+															// TODO Auto-generated catch block
+															e.printStackTrace();
+														}
+		 							    			}		 					    	    		 		
+		 					    	    	};
+		 					    	    	one.start();
 		 		        				}
 		 		        				else {
 		 		        					robot.mouseMove(0, 0);
@@ -249,10 +345,26 @@ extends JDialog {
 		 		        				}
 				        	     }
 				        	     else if(PDF5_ICON.contains(mousePt)) {
-				        	    	 	SkipOrDetail();
+			        	    		 if(!parent.getMultiple()) 
+				        	    	 		SkipOrDetail();
 					        			parent.setPDFCount(5);
 					        			if(parent.getDetails()) {
-						        			PDFReader pdfReader=new PDFReader(parent,automation,PDF5_PATH,PDF5_1_PATH);
+		 					    	    	Thread one = new Thread() {
+		 					    	    		public void run() {
+				 		        					PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF5_PATH,PDF5_1_PATH);
+		 								    	    	try {
+		 													Thread.sleep(1000);
+		 													SelectTitle();
+		 												} catch (InterruptedException e) {
+		 													// TODO Auto-generated catch block
+		 													e.printStackTrace();
+		 												} catch (AWTException e) {
+															// TODO Auto-generated catch block
+															e.printStackTrace();
+														}
+		 							    			}		 					    	    		 		
+		 					    	    	};
+		 					    	    	one.start();
 		 		        				}
 		 		        				else {
 		 		        					robot.mouseMove(0, 0);
@@ -268,10 +380,26 @@ extends JDialog {
 		 		        				}
 				        	     }
 				        	     else if(PDF6_ICON.contains(mousePt)) {
-				        	    	 	SkipOrDetail();
+			        	    		 if(!parent.getMultiple()) 
+				        	    	 		SkipOrDetail();
 					        			parent.setPDFCount(6);
 					        			if(parent.getDetails()) {
-						        			PDFReader pdfReader=new PDFReader(parent,automation,PDF6_PATH,PDF6_1_PATH);
+		 					    	    	Thread one = new Thread() {
+		 					    	    		public void run() {
+				 		        					PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF6_PATH,PDF6_1_PATH);
+		 								    	    	try {
+		 													Thread.sleep(1000);
+		 													SelectTitle();
+		 												} catch (InterruptedException e) {
+		 													// TODO Auto-generated catch block
+		 													e.printStackTrace();
+		 												} catch (AWTException e) {
+															// TODO Auto-generated catch block
+															e.printStackTrace();
+														}
+		 							    			}		 					    	    		 		
+		 					    	    	};
+		 					    	    	one.start();
 		 		        				}
 		 		        				else {
 		 		        					robot.mouseMove(0, 0);
@@ -287,10 +415,26 @@ extends JDialog {
 		 		        				}
 				        	     }
 				        	     else if(PDF7_ICON.contains(mousePt)) {
-				        	    	 	SkipOrDetail();
+			        	    		 if(!parent.getMultiple()) 
+				        	    	 		SkipOrDetail();
 					        			parent.setPDFCount(7);
 					        			if(parent.getDetails()) {
-						        			PDFReader pdfReader=new PDFReader(parent,automation,PDF7_PATH,PDF7_1_PATH);
+		 					    	    	Thread one = new Thread() {
+		 					    	    		public void run() {
+				 		        					PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF7_PATH,PDF7_1_PATH);
+		 								    	    	try {
+		 													Thread.sleep(1000);
+		 													SelectTitle();
+		 												} catch (InterruptedException e) {
+		 													// TODO Auto-generated catch block
+		 													e.printStackTrace();
+		 												} catch (AWTException e) {
+															// TODO Auto-generated catch block
+															e.printStackTrace();
+														}
+		 							    			}		 					    	    		 		
+		 					    	    	};
+		 					    	    	one.start();
 		 		        				}
 		 		        				else {
 		 		        					robot.mouseMove(0, 0);
@@ -305,45 +449,43 @@ extends JDialog {
 								    	    robot.keyRelease(KeyEvent.VK_CONTROL);
 		 		        				}
 				        	     }  
-	        	    		 }
-	        	    		 
-	        	    		 else {
-	        	    			 boolean automation=parent.getPDFUserDecision();
-		    	        	     if(PDF1_ICON.contains(mousePt)) {
-					        	     //handle double click event.
-					        			parent.setPDFCount(1);
-					        			PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF1_PATH,PDF1_1_PATH);
-				        	     }
-				        	     else if(PDF2_ICON.contains(mousePt)) {
-					        	     //handle double click event.
-					        			parent.setPDFCount(2);
-					        			PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF1_PATH,PDF2_1_PATH);
-				        	     }
-				        	     else if(PDF3_ICON.contains(mousePt)) {
-					        			parent.setPDFCount(3);
-					        			PDFReader pdfReader=new PDFReader(parent,automation,PDF3_PATH,PDF3_1_PATH);
-				        	     }
-				        	     else if(PDF4_ICON.contains(mousePt)) {
-					        			parent.setPDFCount(4);
-					        			PDFReader pdfReader=new PDFReader(parent,automation,PDF4_PATH,PDF4_1_PATH);
-				        	     }
-				        	     else if(PDF5_ICON.contains(mousePt)) {
-					        			parent.setPDFCount(5);
-					        			PDFReader pdfReader=new PDFReader(parent,automation,PDF5_PATH,PDF5_1_PATH);
-				        	     }
-				        	     else if(PDF6_ICON.contains(mousePt)) {
-					        			parent.setPDFCount(6);
-					        			PDFReader pdfReader=new PDFReader(parent,automation,PDF6_PATH,PDF6_1_PATH);
-				        	     }
-				        	     else if(PDF7_ICON.contains(mousePt)) {
-					        			parent.setPDFCount(7);
-					        			PDFReader pdfReader=new PDFReader(parent,automation,PDF7_PATH,PDF7_1_PATH);
-				        	     } 
-	        	    		 }
+//	        	    		 
+//	        	    		 else {
+//	        	    			 boolean automation=parent.getPDFUserDecision();
+//		    	        	     if(PDF1_ICON.contains(mousePt)) {
+//					        	     //handle double click event.
+//					        			parent.setPDFCount(1);
+//					        			PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF1_PATH,PDF1_1_PATH);
+//				        	     }
+//				        	     else if(PDF2_ICON.contains(mousePt)) {
+//					        	     //handle double click event.
+//					        			parent.setPDFCount(2);
+//					        			PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF2_PATH,PDF2_1_PATH);
+//				        	     }
+//				        	     else if(PDF3_ICON.contains(mousePt)) {
+//					        			parent.setPDFCount(3);
+//					        			PDFReader pdfReader=new PDFReader(parent,automation,PDF3_PATH,PDF3_1_PATH);
+//				        	     }
+//				        	     else if(PDF4_ICON.contains(mousePt)) {
+//					        			parent.setPDFCount(4);
+//					        			PDFReader pdfReader=new PDFReader(parent,automation,PDF4_PATH,PDF4_1_PATH);
+//				        	     }
+//				        	     else if(PDF5_ICON.contains(mousePt)) {
+//					        			parent.setPDFCount(5);
+//					        			PDFReader pdfReader=new PDFReader(parent,automation,PDF5_PATH,PDF5_1_PATH);
+//				        	     }
+//				        	     else if(PDF6_ICON.contains(mousePt)) {
+//					        			parent.setPDFCount(6);
+//					        			PDFReader pdfReader=new PDFReader(parent,automation,PDF6_PATH,PDF6_1_PATH);
+//				        	     }
+//				        	     else if(PDF7_ICON.contains(mousePt)) {
+//					        			parent.setPDFCount(7);
+//					        			PDFReader pdfReader=new PDFReader(parent,automation,PDF7_PATH,PDF7_1_PATH);
+//				        	     } 
+//	        	    		 }
+	        	    	 }
 	        	    	 }
 		        	     else {
-					    		int start=0;
-					    		int end=0;
 					    		if(PDF1_ICON.contains(mousePt)){
 					    			start=1;
 					    			
@@ -391,17 +533,38 @@ extends JDialog {
 					    		if(start<end) {
 					    			parent.setMultiple(true);
 			        	    	 	SkipOrDetail();
-			        	    	 	if(parent.getDetails()) {			        	    	 		
-						    			for(int i=start;i<end+1;i++) {
-							    	    	System.out.println(i);
-							    	    	robot.mouseMove(0, 0);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.mouseMove(PDF_ABS[i-1].x,PDF_ABS[i-1].y);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.delay(1000);
-	//						    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
-	//						    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
-						    			}
+			        	    	 	if(parent.getDetails()) {
+			        	    	 		Thread one = new Thread() {
+					    	    		public void run() {		
+							    			for(int i=start;i<end+1;i++) {
+								    	    	robot.mouseMove(0, 0);
+								    	    	robot.mouseMove(20, 880);
+								    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
+								    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);							    											    			
+								    	    	try {
+													Thread.sleep(1000);
+												} catch (InterruptedException e) {
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+												}
+								    	    	robot.mouseMove(0, 0);
+								    	    	robot.mouseMove(PDF_ABS[i-1].x,PDF_ABS[i-1].y);
+								    	    	robot.delay(1000);
+								    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
+								    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);							    											    			
+								    	    	try {
+													Thread.sleep(4000);
+												} catch (InterruptedException e) {
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+												}
+							    			} 
+								    		parent.setMultiple(false);
+								    		start=0;
+								    		end=0;
+					    	    		}	    		
+					    	    	};
+					    	    	one.start();
 			        	    	 	}
 			        	    	 	else {
 						    	    	robot.mouseMove(0, 0);
@@ -410,26 +573,65 @@ extends JDialog {
 						    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
 						    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
 						    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);			        	    	 		
-						    			for(int i=start;i<end+1;i++) {
-							    	    	System.out.println(i);
-						        			parent.setPDFCount(i);
-							    	    	robot.keyPress(KeyEvent.VK_CONTROL);
-							    	    	robot.keyPress(KeyEvent.VK_V);
-							    	    	robot.keyRelease(KeyEvent.VK_V);
-							    	    	robot.keyRelease(KeyEvent.VK_CONTROL);
-						    			}
+						    	    	Thread one = new Thread() {
+						    	    		public void run() {							    	    			
+						    	    			for(int i=start;i<end+1;i++) {
+									    	    	System.out.println(i);
+								        			parent.setPDFCount(i);
+									    	    	robot.keyPress(KeyEvent.VK_CONTROL);
+									    	    	robot.keyPress(KeyEvent.VK_V);
+									    	    	robot.keyRelease(KeyEvent.VK_V);
+									    	    	robot.keyRelease(KeyEvent.VK_CONTROL);
+								    										    			
+									    	    	try {
+														Thread.sleep(1000);
+													} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+								    			} 
+									    		parent.setMultiple(false);
+									    		start=0;
+									    		end=0;
+						    	    		}	    		
+						    	    	};
+						    	    	one.start();
 			        	    	 	}
-					    			parent.setMultiple(false);
 					    		}else if(start>end) {
 					    			parent.setMultiple(true);
-			        	    	 	if(parent.getDetails()) {	
-						    			for(int i=end;i<start+1;i++) {
-							    	    	robot.mouseMove(0, 0);
-							    	    	robot.mouseMove(PDF_ABS[i-1].x,PDF_ABS[i-1].y);
-							    	    	robot.delay(1000);
-							    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
-							    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
-						    			}
+			        	    	 	SkipOrDetail();
+			        	    	 	if(parent.getDetails()) {
+			        	    	 		Thread one = new Thread() {
+					    	    		public void run() {		
+							    			for(int i=start;i>end-1;i--) {
+								    	    	robot.mouseMove(0, 0);
+								    	    	robot.mouseMove(20, 880);
+								    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
+								    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);							    											    			
+								    	    	try {
+													Thread.sleep(1000);
+												} catch (InterruptedException e) {
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+												}
+								    	    	robot.mouseMove(0, 0);
+								    	    	robot.mouseMove(PDF_ABS[i-1].x,PDF_ABS[i-1].y);
+								    	    	robot.delay(1000);
+								    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
+								    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);							    											    			
+								    	    	try {
+													Thread.sleep(4000);
+												} catch (InterruptedException e) {
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+												}
+							    			} 
+								    		parent.setMultiple(false);
+								    		start=0;
+								    		end=0;
+					    	    		}	    		
+					    	    	};
+					    	    	one.start();
 			        	    	 	}
 			        	    	 	else {
 						    	    	robot.mouseMove(0, 0);
@@ -437,62 +639,154 @@ extends JDialog {
 						    	    	robot.mouseMove(200, 200);
 						    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
 						    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
-						    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);			        	    	 		
-						    			for(int i=end;i<start+1;i++) {
-							    	    	System.out.println(i);
-						        			parent.setPDFCount(i);
-							    	    	robot.keyPress(KeyEvent.VK_CONTROL);
-							    	    	robot.keyPress(KeyEvent.VK_V);
-							    	    	robot.keyRelease(KeyEvent.VK_V);
-							    	    	robot.keyRelease(KeyEvent.VK_CONTROL);
-						    			}
+						    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
+						    	    	Thread one = new Thread() {
+						    	    		public void run() {							    	    			
+						    	    			for(int i=start;i>end-1;i--) {
+									    	    	System.out.println(i);
+								        			parent.setPDFCount(i);
+									    	    	robot.keyPress(KeyEvent.VK_CONTROL);
+									    	    	robot.keyPress(KeyEvent.VK_V);
+									    	    	robot.keyRelease(KeyEvent.VK_V);
+									    	    	robot.keyRelease(KeyEvent.VK_CONTROL);								    			
+									    	    	try {
+														Thread.sleep(1000);
+													} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+								    			} 
+									    		parent.setMultiple(false);
+									    		start=0;
+									    		end=0;
+						    	    		}	    		
+						    	    	};
+						    	    	one.start();
 			        	    	 		
 			        	    	 	}
-						    			parent.setMultiple(false);
 					    		}
 			        	     }
 		        	     }
 	    	}
 	    	});
+	    this.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(KeyEvent evt) {
+                if (evt.getKeyCode()==KeyEvent.VK_ALT) {
+                	alt=true;
+                }
+          }
+            public void keyReleased(KeyEvent evt) {
+                if (evt.getKeyCode()==KeyEvent.VK_ALT) {
+                	if(selected.size()>1) {
+                		parent.setMultiple(true);
+                	}
+                	else{
+                		parent.setMultiple(false);
+                	}
+                	if(selected.size()>0) {
+                		parent.setMultiple(true);
+        	    	 	SkipOrDetail();
+        	    	 	if(parent.getDetails()) {		
+			    	    	int selected_size=selected.size();
+        	    	 		Thread one = new Thread() {
+		    	    		public void run() {		
+				    			for(int i=0;i<selected_size;i++) {
+					    	    	robot.mouseMove(0, 0);
+					    	    	robot.mouseMove(20, 880);
+					    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
+					    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);							    											    			
+					    	    	try {
+										Thread.sleep(1000);
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+					    	    	int pdfFile=selected.pollFirst()-1;
+					    	    	System.out.println(pdfFile);
+					    	    	robot.mouseMove(0, 0);
+					    	    	robot.mouseMove(PDF_ABS[pdfFile].x,PDF_ABS[pdfFile].y);
+					    	    	robot.delay(1000);
+					    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
+					    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);					    											    			
+					    	    	try {
+										Thread.sleep(4000);
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+				    			} 
+			                	parent.setMultiple(false);
+		    	    		}	    		
+		    	    	};
+		    	    	one.start();
+        	    	 	}
+        	    	 	else {
+			    	    	robot.mouseMove(0, 0);
+			    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
+			    	    	robot.mouseMove(200, 200);
+			    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
+			    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
+			    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);	
+			    	    	int selected_size=selected.size();
+			    	    	Thread one = new Thread() {
+			    	    		public void run() {
+					    			for(int i=0;i<selected_size;i++) {
+						    	    	System.out.println(i);
+					        			parent.setPDFCount(selected.pollFirst());
+						    	    	robot.keyPress(KeyEvent.VK_CONTROL);
+						    	    	robot.keyPress(KeyEvent.VK_V);
+						    	    	robot.keyRelease(KeyEvent.VK_V);
+						    	    	robot.keyRelease(KeyEvent.VK_CONTROL);
+						    	    	try {
+											Thread.sleep(1000);
+										} catch (InterruptedException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+					    			} 
+				                	parent.setMultiple(false);
+			    	    		}	    		
+			    	    	};
+			    	    	one.start();
+		
+        	    	 	}
+                }
+                	alt=false;
+                }
+          }
+    });
+	    
+	    this.addWindowListener(new java.awt.event.WindowAdapter() {
+	        @Override
+	        public void windowClosing(java.awt.event.WindowEvent e) {
+	            parent.init();
+	            e.getWindow().dispose();
+	        }
+	    });
 	    setVisible(true);
 	    }
-
-    
-//    public void paint(Graphics g) {
-//    	System.out.println("BLAH");
-//    	super.paint(g);
-//        g.setColor(Color.RED);;
-//        g.drawRect(100, 100, 100, 100);
-//        
-//        Component c = this;
-//        while((c != null) && (! (c instanceof Desktop)))
-//        	c = c.getParent();
-//        c.repaint();
-//    }
-    
-	private void SelectTitle() {
-		Robot select_title_robot;
-		try {
-			select_title_robot = new Robot();
-	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-			select_title_robot.mouseMove(1000,700);
-			//System.out.println("BOUNDS: " + MouseInfo.getPointerInfo().getDevice().getDefaultConfiguration().getBounds());
-	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-	    	select_title_robot.delay(1000);
-			select_title_robot.mouseMove(MouseInfo.getPointerInfo().getLocation().x+50,MouseInfo.getPointerInfo().getLocation().y+50);
-	    	select_title_robot.delay(1000);
-			System.out.println(MouseInfo.getPointerInfo().getLocation());
-			//select_title_robot.mousePress(InputEvent.BUTTON1_MASK);
-			//click_pdf_robot.mouseMove(getX()+1000,getY()+200+50);
-			//select_title_robot.mouseRelease(InputEvent.BUTTON1_MASK);
-//			click_pdf_robot.mouseMove(700,400);
-//			click_pdf_robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-//			click_pdf_robot.mouseMove(800,500);
-//			click_pdf_robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-		} catch (AWTException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+  
+	private void SelectTitle() throws AWTException {
+//		Robot selectTitleRobot= new Robot();
+//		
+//		selectTitleRobot.mouseMove(0, 0);
+//		selectTitleRobot.mouseMove(700,80);
+//		selectTitleRobot.mousePress(InputEvent.BUTTON1_MASK);
+//		selectTitleRobot.delay(1000);
+//		selectTitleRobot.mouseMove(0, 0);
+//		selectTitleRobot.mouseMove(905,145);
+//		selectTitleRobot.mouseRelease(InputEvent.BUTTON1_MASK);
+//		selectTitleRobot.delay(1000);
+//		selectTitleRobot.mouseMove(0, 0);
+//		System.out.println(MouseInfo.getPointerInfo().getLocation());
+//		selectTitleRobot.mouseMove(200, 200);
+//		System.out.println(MouseInfo.getPointerInfo().getLocation());
+//		selectTitleRobot.mousePress(InputEvent.BUTTON1_MASK);
+//		selectTitleRobot.mouseRelease(InputEvent.BUTTON1_MASK);
+//		selectTitleRobot.keyPress(KeyEvent.VK_CONTROL);
+//		selectTitleRobot.keyPress(KeyEvent.VK_V);
+//		selectTitleRobot.keyRelease(KeyEvent.VK_V);
+//		selectTitleRobot.keyRelease(KeyEvent.VK_CONTROL);
 	}
 	
 	private void SkipOrDetail() {

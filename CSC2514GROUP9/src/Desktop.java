@@ -14,11 +14,11 @@ extends JFrame {
 	public static final String DESKTOP_IMG="./imgs/desktop.png";
 	public static final Rectangle PDF_FOLDER=new Rectangle(0,173,152,196);
 	public static final Rectangle NOTEPAD_ICON=new Rectangle(1000,1744,70,60);
-    private static Point mousePt;
-    public boolean PDF_USERDECISION=true;
+    public boolean PDF_USERDECISION=false;
     public boolean DETAILS=true;
     public int PDF_COUNT=0;
     public static boolean multiple=false;
+	private static int repetitive_count=0;
     
 	public Desktop() {
 		setSize(2736,1824);		
@@ -69,6 +69,21 @@ extends JFrame {
 
     public void setRobot( Robot new_robot ){
     	robot = new_robot; 
+    }
+
+	public int getRepetitiveCount(){
+        return repetitive_count;
+    }
+
+    public void setRepetitiveCount( int count ){
+    	repetitive_count = count; 
+    }
+    public void init() {
+        PDF_USERDECISION=false;
+        DETAILS=true;
+        PDF_COUNT=0;
+        multiple=false;    	
+        repetitive_count=0;
     }
     
 	public static void main(String[] args) throws AWTException {
