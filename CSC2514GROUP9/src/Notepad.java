@@ -37,22 +37,8 @@ extends JDialog  {
 	        	int line_count=parent.getPDFCount();
 	    	     String title=PDF_TITLES[line_count-1];
 	    	     if(!parent.getPDFUserDecision()) {
-//	    	    	 parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
 		    	     last_step.addLast(txtArea.getText());
 	    	 		 txtArea.append(title+"\n");
-//		    	     if(parent.getRepetitiveCount()==6) {
-//		    	    	 UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
-//		    	    	 UIManager.put("OptionPane.buttonFont", new Font("System", Font.PLAIN, 30));
-//		    	    	 if (JOptionPane.showConfirmDialog(null,
-//	                             "Repetitive task detected, do you want to automate it?",
-//	                             "Automate Request", 
-//	                             JOptionPane.YES_NO_OPTION,
-//	                             JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-//		    	    		 	parent.setPDFUserDecision(true);
-//		    	    		} else {
-//		    	    		 	parent.setPDFUserDecision(false);
-//		    	    		}
-//		    	     }	 
 
 		              if(!parent.getPDFUserDecision()) {
 		         	      ActionItem action= new ActionItem(parent.PASTE_TO_NOTEPAD,self);

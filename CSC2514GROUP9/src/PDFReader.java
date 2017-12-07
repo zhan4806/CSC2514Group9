@@ -63,23 +63,6 @@ extends JDialog {
 	    this.addWindowListener(new java.awt.event.WindowAdapter() {
 	        @Override
 	        public void windowClosing(java.awt.event.WindowEvent e) {
-//   	    	 	parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
-//   	    	 	int repetitiveCount=parent.getRepetitiveCount();
-//	    	     if(repetitiveCount==6) {
-//	    	    	 UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
-//	    	    	 UIManager.put("OptionPane.buttonFont", new Font("System", Font.PLAIN, 30));
-//	    	    	 if (JOptionPane.showConfirmDialog(null,
-//                             "Repetitive task detected, do you want to automate it?",
-//                             "Automate Request", 
-//                             JOptionPane.YES_NO_OPTION,
-//                             JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-//	    	    		 	parent.setPDFUserDecision(true);
-//	    	    		 	System.out.println(parent.getPDFUserDecision());
-//	    	    		} else {
-//	    	    		 	parent.setPDFUserDecision(false);
-//	    	    		}
-//	    	     }	
-
 	              if(!parent.getPDFUserDecision()) {
 	         	      ActionItem action= new ActionItem(parent.CLOSE_PDFFILE,self);
 	         	      parent.addAction(action);          	  

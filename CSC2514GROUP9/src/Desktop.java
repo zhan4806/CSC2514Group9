@@ -11,7 +11,7 @@ extends JFrame {
 	public static final String DESKTOP_IMG="./imgs/desktop.png";
 	public static final Rectangle PDF_FOLDER=new Rectangle(0,173,152,196);
 	public static final Rectangle NOTEPAD_ICON=new Rectangle(1000,1744,70,60);
-	public static final Integer OPEN_PDFFOLDER=0;
+	public final Integer OPEN_PDFFOLDER=0;
 	public final Integer SELECT_PDFFILE=1;
 	public final Integer SELECT_TITLE=2;
 	public final Integer CLOSE_PDFFILE=3;
