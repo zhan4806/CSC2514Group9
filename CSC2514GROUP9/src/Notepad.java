@@ -19,9 +19,12 @@ extends JDialog  {
 	public static final String[] PDF_TITLES= {PDF1,PDF2,PDF3,PDF4,PDF5,PDF6,PDF7};
 	private static LinkedList<String> last_step=new LinkedList<String>();
 	private static LinkedList<String> future_step=new LinkedList<String>();
+	private static int ID;
 	
 	public Notepad(Desktop parent) {
 		super(parent);
+		ID=parent.NotepadCount;
+		parent.NotepadCount++;
 		setTitle("Untitled");
 		setName("Notepad");
 		setSize(2035,1222);
@@ -47,16 +50,16 @@ extends JDialog  {
 	                             JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 		    	    		    // yes option
 		    	    		 	parent.setPDFUserDecision(true);
-		    	    		 	System.out.println(parent.getPDFUserDecision());
+		    	    		 	//System.out.println(parent.getPDFUserDecision());
 		    	    		} else {
 		    	    		    // no option
 		    	    		 	parent.setPDFUserDecision(false);
-		    	    		 	System.out.println(parent.getPDFUserDecision());
+		    	    		 	//System.out.println(parent.getPDFUserDecision());
 		    	    		}
 		    	     }	    	    	 
 	    	     }else {
 		    	     last_step.addLast(txtArea.getText());
-	    	    	 System.out.println("Notepad line 58: "+parent.getPDFCount());
+		    	     //System.out.println("Notepad line 58: "+parent.getPDFCount());
 	    	 		 txtArea.append(title+"\n");
 	    	     }
 	    	     future_step=new LinkedList<String>();

@@ -55,6 +55,7 @@ extends JDialog {
     public static Robot robot;
     private static boolean alt=false;
     LinkedList<Integer> selected = new LinkedList<Integer>();
+	private static int ID;
 
 	int start=0;
 	int end=0;
@@ -62,6 +63,8 @@ extends JDialog {
     public PDFFolder(Desktop parent) throws AWTException {
 		super(parent);
 		PARENT=parent;
+		ID=parent.PDFFolderCount;
+		parent.PDFFolderCount++;
 		toFront();
 		setTitle("PDF Folder");
 		setName("PDF Folder");
@@ -75,10 +78,11 @@ extends JDialog {
 	    self=this;
 	    this.addMouseListener(new MouseAdapter() {
 	    	public void mouseClicked(MouseEvent e) {
-	    		System.out.println(e.getClickCount());
+	    		//System.out.println(e.getClickCount());
 	    		if (e.getClickCount() == 2 && !e.isConsumed()) {
 	        	     e.consume();
 	        	     boolean automation=parent.getPDFUserDecision();
+	        	     ActionItem action= new ActionItem(parent.OPEN_PDFFILE,self);
 	        	     if(PDF1_ICON.contains(e.getPoint())) {
 		        	     //handle double click event.
 		        			parent.setPDFCount(1);
@@ -120,6 +124,7 @@ extends JDialog {
 		        			PDFReader pdfReader=new PDFReader(parent,automation,PDF7_PATH,PDF7_1_PATH);
 		        			parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
 	        	     }
+	        	     parent.addAction(action);
 	        	}
 	    	}
 	    
@@ -127,13 +132,16 @@ extends JDialog {
 	    	public void mousePressed(MouseEvent e) {
 	        	if (e.getClickCount() == 1 && !e.isConsumed()) {
 	        		mousePt=e.getPoint();
-		    		System.out.println("Single Press");
+
+	        	    ActionItem action= new ActionItem(parent.SELECT_PDFFILE,self);
+	        	    parent.addAction(action);
+		    		//System.out.println("Single Press");
 	        	}
 	        }
 
 	    	public void mouseReleased(MouseEvent e) {
        	     if(parent.getPDFUserDecision()&&e.getClickCount() == 1 && !e.isConsumed()) {
-       	    	 System.out.println("mouseReleased");
+       	    	// System.out.println("mouseReleased");
 	        	     e.consume();
 	        	    	 if(mousePt.x == e.getX()&&mousePt.y == e.getY()) {
 	        	    		 if(alt) {
@@ -175,16 +183,7 @@ extends JDialog {
 		 					    	    	one.start();
 		 		        				}
 		 		        				else {
-		 		        					robot.mouseMove(0, 0);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.mouseMove(200, 200);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
-							    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
-								    	    robot.keyPress(KeyEvent.VK_CONTROL);
-								    	    robot.keyPress(KeyEvent.VK_V);
-								    	    robot.keyRelease(KeyEvent.VK_V);
-								    	    robot.keyRelease(KeyEvent.VK_CONTROL);
+		 		        					SkipSingleDoc(robot);
 		 		        				}
 					        			
 				        	     }
@@ -208,16 +207,7 @@ extends JDialog {
 		 					    	    	one.start();
 		 		        				}
 		 		        				else {
-		 		        					robot.mouseMove(0, 0);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.mouseMove(200, 200);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
-							    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
-								    	    robot.keyPress(KeyEvent.VK_CONTROL);
-								    	    robot.keyPress(KeyEvent.VK_V);
-								    	    robot.keyRelease(KeyEvent.VK_V);
-								    	    robot.keyRelease(KeyEvent.VK_CONTROL);
+		 		        					SkipSingleDoc(robot);
 		 		        				}
 					        			
 				        	     }
@@ -240,16 +230,7 @@ extends JDialog {
 		 					    	    	one.start();
 		 		        				}
 		 		        				else {
-		 		        					robot.mouseMove(0, 0);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.mouseMove(200, 200);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
-							    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
-								    	    robot.keyPress(KeyEvent.VK_CONTROL);
-								    	    robot.keyPress(KeyEvent.VK_V);
-								    	    robot.keyRelease(KeyEvent.VK_V);
-								    	    robot.keyRelease(KeyEvent.VK_CONTROL);
+		 		        					SkipSingleDoc(robot);
 		 		        				}
 					        			
 				        	     }
@@ -272,16 +253,7 @@ extends JDialog {
 		 					    	    	one.start();
 		 		        				}
 		 		        				else {
-		 		        					robot.mouseMove(0, 0);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.mouseMove(200, 200);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
-							    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
-								    	    robot.keyPress(KeyEvent.VK_CONTROL);
-								    	    robot.keyPress(KeyEvent.VK_V);
-								    	    robot.keyRelease(KeyEvent.VK_V);
-								    	    robot.keyRelease(KeyEvent.VK_CONTROL);
+		 		        					SkipSingleDoc(robot);
 		 		        				}
 				        	     }
 				        	     else if(PDF5_ICON.contains(mousePt)) {
@@ -303,16 +275,7 @@ extends JDialog {
 		 					    	    	one.start();
 		 		        				}
 		 		        				else {
-		 		        					robot.mouseMove(0, 0);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.mouseMove(200, 200);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
-							    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
-								    	    robot.keyPress(KeyEvent.VK_CONTROL);
-								    	    robot.keyPress(KeyEvent.VK_V);
-								    	    robot.keyRelease(KeyEvent.VK_V);
-								    	    robot.keyRelease(KeyEvent.VK_CONTROL);
+		 		        					SkipSingleDoc(robot);
 		 		        				}
 				        	     }
 				        	     else if(PDF6_ICON.contains(mousePt)) {
@@ -334,16 +297,7 @@ extends JDialog {
 		 					    	    	one.start();
 		 		        				}
 		 		        				else {
-		 		        					robot.mouseMove(0, 0);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.mouseMove(200, 200);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
-							    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
-								    	    robot.keyPress(KeyEvent.VK_CONTROL);
-								    	    robot.keyPress(KeyEvent.VK_V);
-								    	    robot.keyRelease(KeyEvent.VK_V);
-								    	    robot.keyRelease(KeyEvent.VK_CONTROL);
+		 		        					SkipSingleDoc(robot);
 		 		        				}
 				        	     }
 				        	     else if(PDF7_ICON.contains(mousePt)) {
@@ -365,16 +319,7 @@ extends JDialog {
 		 					    	    	one.start();
 		 		        				}
 		 		        				else {
-		 		        					robot.mouseMove(0, 0);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.mouseMove(200, 200);
-							    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
-							    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
-							    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
-								    	    robot.keyPress(KeyEvent.VK_CONTROL);
-								    	    robot.keyPress(KeyEvent.VK_V);
-								    	    robot.keyRelease(KeyEvent.VK_V);
-								    	    robot.keyRelease(KeyEvent.VK_CONTROL);
+		 		        					SkipSingleDoc(robot);
 		 		        				}
 				        	     }
 	        	    	 }
@@ -462,9 +407,9 @@ extends JDialog {
 			        	    	 	}
 			        	    	 	else {
 						    	    	robot.mouseMove(0, 0);
-						    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
+						    	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
 						    	    	robot.mouseMove(200, 200);
-						    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
+						    	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
 						    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
 						    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);			        	    	 		
 						    	    	Thread one = new Thread() {
@@ -529,9 +474,9 @@ extends JDialog {
 			        	    	 	}
 			        	    	 	else {
 						    	    	robot.mouseMove(0, 0);
-						    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
+						    	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
 						    	    	robot.mouseMove(200, 200);
-						    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
+						    	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
 						    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
 						    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
 						    	    	Thread one = new Thread() {
@@ -596,7 +541,7 @@ extends JDialog {
 										e.printStackTrace();
 									}
 					    	    	int pdfFile=selected.pollFirst()-1;
-					    	    	System.out.println(pdfFile);
+					    	    	//System.out.println(pdfFile);
 					    	    	robot.mouseMove(0, 0);
 					    	    	robot.mouseMove(PDF_ABS[pdfFile].x,PDF_ABS[pdfFile].y);
 					    	    	robot.delay(1000);
@@ -616,9 +561,9 @@ extends JDialog {
         	    	 	}
         	    	 	else {
 			    	    	robot.mouseMove(0, 0);
-			    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
+			    	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
 			    	    	robot.mouseMove(200, 200);
-			    	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
+			    	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
 			    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
 			    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);	
 			    	    	int selected_size=selected.size();
@@ -674,6 +619,19 @@ extends JDialog {
    		    // no option
    		 	PARENT.setDetails(true);
    		}
+	}
+	
+	private void SkipSingleDoc(Robot robot) {
+		robot.mouseMove(0, 0);
+    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
+    	robot.mouseMove(200, 200);
+    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
+    	robot.mousePress(InputEvent.BUTTON1_MASK);
+    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
+	    robot.keyPress(KeyEvent.VK_CONTROL);
+	    robot.keyPress(KeyEvent.VK_V);
+	    robot.keyRelease(KeyEvent.VK_V);
+	    robot.keyRelease(KeyEvent.VK_CONTROL);
 	}
 }
 

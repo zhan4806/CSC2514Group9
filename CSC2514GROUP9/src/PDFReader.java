@@ -15,8 +15,12 @@ extends JDialog {
     private static int startY=-1;
     private static int endX=-1;
     private static int endY=-1;
+	private static int ID;
+	
 	public PDFReader(Desktop parent,boolean auto, String first_img,String second_img){
 		super(parent);
+		ID=parent.PDFReaderCount;
+		parent.PDFReaderCount++;
 		toFront();
 		setFocusable(true);
 		requestFocus();
@@ -53,7 +57,7 @@ extends JDialog {
 	    		int dy=(int) (endY-startY);
 	    		float distance = (float) Math.sqrt(dx*dx+dy*dy);
               if(TITLE.contains(e.getPoint())&&TITLE.contains(mousePt)&&distance>100) {  
-            	  System.out.println("Dragged, PDFReader");
+            	 // System.out.println("Dragged, PDFReader");
             	  background.setIcon(new ImageIcon(second_img));            	  
               }
           }
@@ -63,7 +67,8 @@ extends JDialog {
 	        @Override
 	        public void windowClosing(java.awt.event.WindowEvent e) {
    	    	 	parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
-	    	     if(parent.getRepetitiveCount()==6) {
+   	    	 	int repetitiveCount=parent.getRepetitiveCount();
+	    	     if(repetitiveCount==6) {
 	    	    	 UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
 	    	    	 UIManager.put("OptionPane.buttonFont", new Font("System", Font.PLAIN, 30));
 	    	    	 if (JOptionPane.showConfirmDialog(null,
@@ -77,7 +82,7 @@ extends JDialog {
 	    	    		} else {
 	    	    		    // no option
 	    	    		 	parent.setPDFUserDecision(false);
-	    	    		 	System.out.println(parent.getPDFUserDecision());
+	    	    		 	//System.out.println(parent.getPDFUserDecision());
 	    	    		}
 	    	     }	
 	            e.getWindow().dispose();
@@ -94,12 +99,12 @@ extends JDialog {
 				 	   		    Robot robot=parent.getRobot();
 				 	   	    	robot.mouseMove(0, 0);
 				 	   	    	robot.mouseMove(700,80);
-				 	       		System.out.println("line 92, PDFReader: "+MouseInfo.getPointerInfo().getLocation());
+				 	       		//System.out.println("line 92, PDFReader: "+MouseInfo.getPointerInfo().getLocation());
 				 	   		    robot.mousePress(InputEvent.BUTTON1_MASK);
 								Thread.sleep(1000);
 				 	   	    	robot.mouseMove(0, 0);
 				 	   	    	robot.mouseMove(905,120);
-				 	       		System.out.println("line 96, PDFReader: "+MouseInfo.getPointerInfo().getLocation());
+				 	       		//System.out.println("line 96, PDFReader: "+MouseInfo.getPointerInfo().getLocation());
 				 	   	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
 								Thread.sleep(1000);
 				 	   	    	robot.mouseMove(0, 0);
@@ -108,9 +113,9 @@ extends JDialog {
 				 	   	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
 								Thread.sleep(500);
 				 	   	    	robot.mouseMove(0, 0);
-				 	   	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
+				 	   	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
 				 	   	    	robot.mouseMove(160, 151);
-				 	   	    	System.out.println(MouseInfo.getPointerInfo().getLocation());
+				 	   	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
 				 	   	    	robot.mousePress(InputEvent.BUTTON1_MASK);
 				 	   	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
 				 	       	    robot.keyPress(KeyEvent.VK_CONTROL);

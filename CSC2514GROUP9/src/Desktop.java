@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.LinkedList;
+
 import javax.swing.*;
 
 public class Desktop
@@ -9,13 +11,36 @@ extends JFrame {
 	public static final String DESKTOP_IMG="./imgs/desktop.png";
 	public static final Rectangle PDF_FOLDER=new Rectangle(0,173,152,196);
 	public static final Rectangle NOTEPAD_ICON=new Rectangle(1000,1744,70,60);
+	public static final Integer OPEN_PDFFOLDER=0;
+	public final Integer SELECT_PDFFILE=1;
+	public final Integer SELECT_TITLE=2;
+	public final Integer CLOSE_PDFFILE=3;
+	public final Integer COPY_TITLE=4;
+	public final Integer OPEN_NOTEPAD=5;
+	public final Integer PASTE_TO_NOTEPAD=6;
+	public final Integer CLOSE_PDFFOLDER=7;
+	public final Integer CLOSE_NOTEPAD=8;
+	public final Integer OPEN_PDFFILE=9;
+	
+	public final Integer PDFFOLDER=0;
+	public final Integer PDFFILE=1;
+	public final Integer NOTEPAD=2;	
+	
     public boolean PDF_USERDECISION=false;
     public boolean DETAILS=true;
     public int PDF_COUNT=0;
     public static boolean multiple=false;
+    public static int NotepadCount=0;
+    public static int PDFFolderCount=0;
+    public static int PDFReaderCount=0;
 	private static int repetitive_count=0;
 	private static String[] critical_component;
-    
+	private boolean repetitive_detected=false;
+	
+	private static LinkedList<ActionItem> actionList=new LinkedList<ActionItem>();
+	//private static LinkedList<Integer> actionList;
+	private static LinkedList<Integer> repetitiveList=new LinkedList<Integer>();
+	
 	public Desktop() {
 		setSize(2736,1824);		
 		setLayout(new BorderLayout());
@@ -27,6 +52,56 @@ extends JFrame {
 	    setUndecorated(true);
 	    
 		setVisible(true);
+	}
+	
+	public void addAction(ActionItem action) {
+		actionList.add(action);
+		checkRepetitive();
+	}
+	
+	private void checkRepetitive() {
+		LinkedList<Integer> twice_items=new LinkedList<Integer>();
+		for(int i=0; i<actionList.size();i++) {
+			ActionItem current=actionList.get(i);
+			int repeated_times=1;
+			for(int j=i+1;j<actionList.size();j++) {
+				ActionItem compareTo=actionList.get(j);
+				if(current.getID()==compareTo.getID()) {
+					repeated_times++;
+				}
+				if(repeated_times==3) {
+					repetitive_detected=true;
+					break;
+				}
+				else if(repeated_times==2) {
+					twice_items.add(i);
+				}
+			}
+			if(repetitive_detected) {
+				repetitiveList.add(i);
+				for(int k=0;k<twice_items.size();k++) {
+					repetitiveList.add(twice_items.get(k));
+				}
+				break;
+			}
+		}
+		if(repetitive_detected) {
+			UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
+	    	 UIManager.put("OptionPane.buttonFont", new Font("System", Font.PLAIN, 30));
+	    	 if (JOptionPane.showConfirmDialog(null,
+                    "Repetitive task detected, do you want to automate it?",
+                    "Automate Request", 
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+	    		    // yes option
+	    		 	setPDFUserDecision(true);
+	    		 	//System.out.println(parent.getPDFUserDecision());
+	    		} else {
+	    		    // no option
+	    		 	setPDFUserDecision(false);
+	    		 	//System.out.println(parent.getPDFUserDecision());
+	    		}
+		}
 	}
 	public boolean getMultiple(){
         return multiple;
@@ -74,6 +149,7 @@ extends JFrame {
     public void setRepetitiveCount( int count ){
     	repetitive_count = count; 
     }
+    
     public void init() {
         PDF_USERDECISION=false;
         DETAILS=true;
