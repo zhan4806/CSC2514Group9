@@ -63,8 +63,6 @@ extends JDialog {
     public PDFFolder(Desktop parent) throws AWTException {
 		super(parent);
 		PARENT=parent;
-		ID=parent.PDFFolderCount;
-		parent.PDFFolderCount++;
 		toFront();
 		setTitle("PDF Folder");
 		setName("PDF Folder");
@@ -82,7 +80,6 @@ extends JDialog {
 	    		if (e.getClickCount() == 2 && !e.isConsumed()) {
 	        	     e.consume();
 	        	     boolean automation=parent.getPDFUserDecision();
-	        	     ActionItem action= new ActionItem(parent.OPEN_PDFFILE,self);
 	        	     if(PDF1_ICON.contains(e.getPoint())) {
 		        	     //handle double click event.
 		        			parent.setPDFCount(1);
@@ -124,7 +121,10 @@ extends JDialog {
 		        			PDFReader pdfReader=new PDFReader(parent,automation,PDF7_PATH,PDF7_1_PATH);
 		        			parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
 	        	     }
-	        	     parent.addAction(action);
+	                 if(!parent.getPDFUserDecision()) {
+	            	      ActionItem action= new ActionItem(parent.OPEN_PDFFILE,self);
+	            	      parent.addAction(action);          	  
+	                 }
 	        	}
 	    	}
 	    
@@ -133,8 +133,10 @@ extends JDialog {
 	        	if (e.getClickCount() == 1 && !e.isConsumed()) {
 	        		mousePt=e.getPoint();
 
-	        	    ActionItem action= new ActionItem(parent.SELECT_PDFFILE,self);
-	        	    parent.addAction(action);
+	                if(!parent.getPDFUserDecision()) {
+	           	      ActionItem action= new ActionItem(parent.SELECT_PDFFILE,self);
+	           	      parent.addAction(action);          	  
+	                }
 		    		//System.out.println("Single Press");
 	        	}
 	        }

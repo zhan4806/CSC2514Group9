@@ -15,12 +15,11 @@ extends JDialog {
     private static int startY=-1;
     private static int endX=-1;
     private static int endY=-1;
+    private static PDFReader self;
 	private static int ID;
 	
 	public PDFReader(Desktop parent,boolean auto, String first_img,String second_img){
 		super(parent);
-		ID=parent.PDFReaderCount;
-		parent.PDFReaderCount++;
 		toFront();
 		setFocusable(true);
 		requestFocus();
@@ -28,6 +27,7 @@ extends JDialog {
 		setName("PDF Reader");
 		setSize(1820,1610);
 		setLocation(900,40);
+		self=this;
 		setLayout(new BorderLayout());
 	    JLabel background=new JLabel(new ImageIcon(first_img));
 	    add(background);
@@ -60,31 +60,37 @@ extends JDialog {
             	 // System.out.println("Dragged, PDFReader");
             	  background.setIcon(new ImageIcon(second_img));            	  
               }
+              if(!parent.getPDFUserDecision()) {
+         	      ActionItem action= new ActionItem(parent.SELECT_TITLE,self);
+         	      parent.addAction(action);          	  
+              }
           }
 	    });
 
 	    this.addWindowListener(new java.awt.event.WindowAdapter() {
 	        @Override
 	        public void windowClosing(java.awt.event.WindowEvent e) {
-   	    	 	parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
-   	    	 	int repetitiveCount=parent.getRepetitiveCount();
-	    	     if(repetitiveCount==6) {
-	    	    	 UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
-	    	    	 UIManager.put("OptionPane.buttonFont", new Font("System", Font.PLAIN, 30));
-	    	    	 if (JOptionPane.showConfirmDialog(null,
-                             "Repetitive task detected, do you want to automate it?",
-                             "Automate Request", 
-                             JOptionPane.YES_NO_OPTION,
-                             JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-	    	    		    // yes option
-	    	    		 	parent.setPDFUserDecision(true);
-	    	    		 	System.out.println(parent.getPDFUserDecision());
-	    	    		} else {
-	    	    		    // no option
-	    	    		 	parent.setPDFUserDecision(false);
-	    	    		 	//System.out.println(parent.getPDFUserDecision());
-	    	    		}
-	    	     }	
+//   	    	 	parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
+//   	    	 	int repetitiveCount=parent.getRepetitiveCount();
+//	    	     if(repetitiveCount==6) {
+//	    	    	 UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
+//	    	    	 UIManager.put("OptionPane.buttonFont", new Font("System", Font.PLAIN, 30));
+//	    	    	 if (JOptionPane.showConfirmDialog(null,
+//                             "Repetitive task detected, do you want to automate it?",
+//                             "Automate Request", 
+//                             JOptionPane.YES_NO_OPTION,
+//                             JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+//	    	    		 	parent.setPDFUserDecision(true);
+//	    	    		 	System.out.println(parent.getPDFUserDecision());
+//	    	    		} else {
+//	    	    		 	parent.setPDFUserDecision(false);
+//	    	    		}
+//	    	     }	
+
+	              if(!parent.getPDFUserDecision()) {
+	         	      ActionItem action= new ActionItem(parent.CLOSE_PDFFILE,self);
+	         	      parent.addAction(action);          	  
+	              }
 	            e.getWindow().dispose();
 	        }
 	    });

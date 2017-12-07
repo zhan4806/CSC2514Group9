@@ -29,12 +29,9 @@ extends JFrame {
     public boolean PDF_USERDECISION=false;
     public boolean DETAILS=true;
     public int PDF_COUNT=0;
+    public boolean do_not_bother=false;
     public static boolean multiple=false;
-    public static int NotepadCount=0;
-    public static int PDFFolderCount=0;
-    public static int PDFReaderCount=0;
 	private static int repetitive_count=0;
-	private static String[] critical_component;
 	private boolean repetitive_detected=false;
 	
 	private static LinkedList<ActionItem> actionList=new LinkedList<ActionItem>();
@@ -56,7 +53,8 @@ extends JFrame {
 	
 	public void addAction(ActionItem action) {
 		actionList.add(action);
-		checkRepetitive();
+		if(!do_not_bother && !PDF_USERDECISION)
+			checkRepetitive();
 	}
 	
 	private void checkRepetitive() {
@@ -80,12 +78,14 @@ extends JFrame {
 			if(repetitive_detected) {
 				repetitiveList.add(i);
 				for(int k=0;k<twice_items.size();k++) {
-					repetitiveList.add(twice_items.get(k));
+					if(twice_items.get(k)!=actionList.get(i).getID())
+						repetitiveList.add(twice_items.get(k));
 				}
 				break;
 			}
 		}
 		if(repetitive_detected) {
+			System.out.println(repetitiveList);
 			UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
 	    	 UIManager.put("OptionPane.buttonFont", new Font("System", Font.PLAIN, 30));
 	    	 if (JOptionPane.showConfirmDialog(null,
@@ -99,6 +99,7 @@ extends JFrame {
 	    		} else {
 	    		    // no option
 	    		 	setPDFUserDecision(false);
+	    		 	do_not_bother=true;
 	    		 	//System.out.println(parent.getPDFUserDecision());
 	    		}
 		}

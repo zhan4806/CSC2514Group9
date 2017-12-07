@@ -20,15 +20,15 @@ extends JDialog  {
 	private static LinkedList<String> last_step=new LinkedList<String>();
 	private static LinkedList<String> future_step=new LinkedList<String>();
 	private static int ID;
+	private static Notepad self;
 	
 	public Notepad(Desktop parent) {
 		super(parent);
-		ID=parent.NotepadCount;
-		parent.NotepadCount++;
 		setTitle("Untitled");
 		setName("Notepad");
 		setSize(2035,1222);
 		setLocation(300,300);
+		self=this;
 		JTextArea txtArea = new JTextArea("");
 		txtArea.setFont(txtArea.getFont().deriveFont(24f));
 		this.add(txtArea);
@@ -37,32 +37,34 @@ extends JDialog  {
 	        	int line_count=parent.getPDFCount();
 	    	     String title=PDF_TITLES[line_count-1];
 	    	     if(!parent.getPDFUserDecision()) {
-	    	    	 parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
+//	    	    	 parent.setRepetitiveCount(parent.getRepetitiveCount()+1);
 		    	     last_step.addLast(txtArea.getText());
 	    	 		 txtArea.append(title+"\n");
-		    	     if(parent.getRepetitiveCount()==6) {
-		    	    	 UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
-		    	    	 UIManager.put("OptionPane.buttonFont", new Font("System", Font.PLAIN, 30));
-		    	    	 if (JOptionPane.showConfirmDialog(null,
-	                             "Repetitive task detected, do you want to automate it?",
-	                             "Automate Request", 
-	                             JOptionPane.YES_NO_OPTION,
-	                             JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-		    	    		    // yes option
-		    	    		 	parent.setPDFUserDecision(true);
-		    	    		 	//System.out.println(parent.getPDFUserDecision());
-		    	    		} else {
-		    	    		    // no option
-		    	    		 	parent.setPDFUserDecision(false);
-		    	    		 	//System.out.println(parent.getPDFUserDecision());
-		    	    		}
-		    	     }	    	    	 
+//		    	     if(parent.getRepetitiveCount()==6) {
+//		    	    	 UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
+//		    	    	 UIManager.put("OptionPane.buttonFont", new Font("System", Font.PLAIN, 30));
+//		    	    	 if (JOptionPane.showConfirmDialog(null,
+//	                             "Repetitive task detected, do you want to automate it?",
+//	                             "Automate Request", 
+//	                             JOptionPane.YES_NO_OPTION,
+//	                             JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+//		    	    		 	parent.setPDFUserDecision(true);
+//		    	    		} else {
+//		    	    		 	parent.setPDFUserDecision(false);
+//		    	    		}
+//		    	     }	 
+
+		              if(!parent.getPDFUserDecision()) {
+		         	      ActionItem action= new ActionItem(parent.PASTE_TO_NOTEPAD,self);
+		         	      parent.addAction(action);          	  
+		              }
 	    	     }else {
 		    	     last_step.addLast(txtArea.getText());
 		    	     //System.out.println("Notepad line 58: "+parent.getPDFCount());
 	    	 		 txtArea.append(title+"\n");
 	    	     }
 	    	     future_step=new LinkedList<String>();
+
 	             
 	      }
 	  };
