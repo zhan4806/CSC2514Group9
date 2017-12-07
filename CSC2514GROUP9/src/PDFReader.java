@@ -21,6 +21,7 @@ extends JDialog {
 		setFocusable(true);
 		requestFocus();
 		setTitle("PDF Reader");
+		setName("PDF Reader");
 		setSize(1820,1610);
 		setLocation(900,40);
 		setLayout(new BorderLayout());

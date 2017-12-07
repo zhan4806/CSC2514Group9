@@ -14,6 +14,7 @@ extends JFrame {
     public int PDF_COUNT=0;
     public static boolean multiple=false;
 	private static int repetitive_count=0;
+	private static String[] critical_component;
     
 	public Desktop() {
 		setSize(2736,1824);		

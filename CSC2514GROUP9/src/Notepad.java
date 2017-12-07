@@ -23,6 +23,7 @@ extends JDialog  {
 	public Notepad(Desktop parent) {
 		super(parent);
 		setTitle("Untitled");
+		setName("Notepad");
 		setSize(2035,1222);
 		setLocation(300,300);
 		JTextArea txtArea = new JTextArea("");

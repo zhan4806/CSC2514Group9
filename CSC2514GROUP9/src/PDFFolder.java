@@ -64,6 +64,7 @@ extends JDialog {
 		PARENT=parent;
 		toFront();
 		setTitle("PDF Folder");
+		setName("PDF Folder");
 		setSize(1797,1183);
 		setLocation(20,600);
 		setLayout(new BorderLayout());
