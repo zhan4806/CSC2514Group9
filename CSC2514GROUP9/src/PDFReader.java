@@ -45,19 +45,10 @@ extends JDialog {
 	        		mousePt = e.getPoint();
 	        		System.out.println("line 41, PDFReader: "+"x:"+mousePt.x+"y:"+mousePt.y);
 	        	}
-	        }	    	
-	    });
-	    this.addMouseMotionListener(new MouseAdapter() {
-	    	public void mouseDragged(MouseEvent e) {
-	    		startX=(int)mousePt.getX();
-	    		startY=(int)mousePt.getY();
-	    		endX=(int)e.getX();
-	    		endY=(int)e.getY();
-	    		int dx=(int) (endX-startX);
-	    		int dy=(int) (endY-startY);
-	    		float distance = (float) Math.sqrt(dx*dx+dy*dy);
-              if(TITLE.contains(e.getPoint())&&TITLE.contains(mousePt)&&distance>100) {  
-            	 // System.out.println("Dragged, PDFReader");
+	        }	    
+
+	    	public void mouseReleased(MouseEvent e) {
+              if(TITLE.contains(e.getPoint())&&TITLE.contains(mousePt)) {
             	  background.setIcon(new ImageIcon(second_img));   
                   if(!parent.getPDFUserDecision()) {
              	      ActionItem action= new ActionItem(parent.SELECT_TITLE,self);
@@ -65,6 +56,8 @@ extends JDialog {
                   }         	  
               }
           }
+	    });
+	    this.addMouseMotionListener(new MouseAdapter() {
 	    });
 
 	    this.addWindowListener(new java.awt.event.WindowAdapter() {

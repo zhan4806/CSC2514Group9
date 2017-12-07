@@ -83,10 +83,11 @@ extends JFrame {
 			}
 		}
 		if(repetitive_detected) {
-			 for(int i=start_index;i<end_index;i++) {
-				 for(int j=i;j<end_index;j++) {
+			 for(int i=start_index+1;i<end_index;i++) {
+				 for(int j=i+1;j<end_index;j++) {
 					 if(actionList.get(i).getID()==actionList.get(j).getID()) {
 						 repetitiveList.add(actionList.get(i).getID());
+						 break;
 					 }
 				 }
 				
