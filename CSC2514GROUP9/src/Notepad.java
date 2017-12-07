@@ -46,7 +46,7 @@ extends JDialog  {
 		              }
 	    	     }else {
 		    	     last_step.addLast(txtArea.getText());
-		    	     //System.out.println("Notepad line 58: "+parent.getPDFCount());
+		    	     System.out.println("Notepad line 58: "+parent.getPDFCount());
 	    	 		 txtArea.append(title+"\n");
 	    	     }
 	    	     future_step=new LinkedList<String>();

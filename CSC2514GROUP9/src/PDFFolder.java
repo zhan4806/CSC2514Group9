@@ -24,6 +24,7 @@ extends JDialog {
 	public static final Rectangle PDF5_ICON=new Rectangle(383,598,317,42);
 	public static final Rectangle PDF6_ICON=new Rectangle(383,640,317,42);
 	public static final Rectangle PDF7_ICON=new Rectangle(383,682,317,42);
+	public static final Rectangle FILEAREA=new Rectangle(383,430,317,294);
 	public static final String PDF1_PATH="./imgs/pdf1.png";
 	public static final String PDF1_1_PATH="./imgs/pdf1-1.png";
 	public static final String PDF2_PATH="./imgs/pdf2.png";
@@ -133,7 +134,7 @@ extends JDialog {
 	        	if (e.getClickCount() == 1 && !e.isConsumed()) {
 	        		mousePt=e.getPoint();
 
-	                if(!parent.getPDFUserDecision()) {
+	                if(!parent.getPDFUserDecision()&&FILEAREA.contains(mousePt)) {
 	           	      ActionItem action= new ActionItem(parent.SELECT_PDFFILE,self);
 	           	      parent.addAction(action);          	  
 	                }
@@ -166,23 +167,47 @@ extends JDialog {
 	        	    		 else {
 	    	        	     boolean automation=parent.getPDFUserDecision();
 		    	        	     if(PDF1_ICON.contains(mousePt)) {
+						    			try {
+											parent.completeAction(parent.SELECT_PDFFILE);
+										} catch (AWTException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
 					        	     //handle double click event.
-			        	    		 if(!parent.getMultiple()) 
-				        	    	 		SkipOrDetail();
+				        	    		 if(!parent.getMultiple()) {
+				        	    			 if(parent.repetitiveList.contains(parent.PASTE_TO_NOTEPAD))
+					        	    	 		SkipOrDetail();
+				        	    		 }
 		 		        				parent.setPDFCount(1);
 		 		        				if(parent.getDetails()) {
 		 					    	    	Thread one = new Thread() {
 		 					    	    		public void run() {
-				 		        					PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF1_PATH,PDF1_1_PATH);
-		 								    	    	try {
-		 													Thread.sleep(1000);
-		 												} catch (InterruptedException e) {
-		 													// TODO Auto-generated catch block
-		 													e.printStackTrace();
-		 												} 
+									    	    	robot.mouseMove(0, 0);
+									    	    	robot.mouseMove(PDF_ABS[1-1].x,PDF_ABS[1-1].y);
+									    	    	try {
+														Thread.sleep(500);
+														} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+														}
+									    	    	PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF1_PATH,PDF1_1_PATH);							    											    			
+									    	    	try {
+														Thread.sleep(8000);
+													} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+
+			 							    			try {
+															parent.completeAction(parent.OPEN_PDFFILE);
+														} catch (AWTException e) {
+															// TODO Auto-generated catch block
+															e.printStackTrace();
+														}
 		 							    			}		 					    	    		 		
 		 					    	    	};
 		 					    	    	one.start();
+
 		 		        				}
 		 		        				else {
 		 		        					SkipSingleDoc(robot);
@@ -190,20 +215,43 @@ extends JDialog {
 					        			
 				        	     }
 				        	     else if(PDF2_ICON.contains(mousePt)) {
+						    			try {
+											parent.completeAction(parent.SELECT_PDFFILE);
+										} catch (AWTException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
 					        	     //handle double click event.
-			        	    		 if(!parent.getMultiple()) 
-				        	    	 		SkipOrDetail();
+				        	    		 if(!parent.getMultiple()) {
+				        	    			 if(parent.repetitiveList.contains(parent.PASTE_TO_NOTEPAD))
+					        	    	 		SkipOrDetail();
+				        	    		 }
 					        			parent.setPDFCount(2);
 					        			if(parent.getDetails()) {
 		 					    	    	Thread one = new Thread() {
 		 					    	    		public void run() {
-				 		        					PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF2_PATH,PDF2_1_PATH);
-		 								    	    	try {
-		 													Thread.sleep(1000);
-		 												} catch (InterruptedException e) {
-		 													// TODO Auto-generated catch block
-		 													e.printStackTrace();
-		 												} 
+									    	    	robot.mouseMove(0, 0);
+									    	    	robot.mouseMove(PDF_ABS[2-1].x,PDF_ABS[2-1].y);
+									    	    	try {
+														Thread.sleep(500);
+														} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+														}
+									    	    	PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF2_PATH,PDF2_1_PATH);							    											    			
+									    	    	try {
+														Thread.sleep(8000);
+													} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+
+			 							    			try {
+															parent.completeAction(parent.OPEN_PDFFILE);
+														} catch (AWTException e) {
+															// TODO Auto-generated catch block
+															e.printStackTrace();
+														}
 		 							    			}		 					    	    		 		
 		 					    	    	};
 		 					    	    	one.start();
@@ -214,19 +262,42 @@ extends JDialog {
 					        			
 				        	     }
 				        	     else if(PDF3_ICON.contains(mousePt)) {
-			        	    		 if(!parent.getMultiple()) 
-				        	    	 		SkipOrDetail();
+						    			try {
+											parent.completeAction(parent.SELECT_PDFFILE);
+										} catch (AWTException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
+				        	    		 if(!parent.getMultiple()) {
+				        	    			 if(parent.repetitiveList.contains(parent.PASTE_TO_NOTEPAD))
+					        	    	 		SkipOrDetail();
+				        	    		 }
 					        			parent.setPDFCount(3);
 					        			if(parent.getDetails()) {
 		 					    	    	Thread one = new Thread() {
 		 					    	    		public void run() {
-				 		        					PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF3_PATH,PDF3_1_PATH);
-		 								    	    	try {
-		 													Thread.sleep(1000);
-		 												} catch (InterruptedException e) {
-		 													// TODO Auto-generated catch block
-		 													e.printStackTrace();
-		 												}
+									    	    	robot.mouseMove(0, 0);
+									    	    	robot.mouseMove(PDF_ABS[3-1].x,PDF_ABS[3-1].y);
+									    	    	try {
+														Thread.sleep(500);
+														} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+														}
+									    	    	PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF3_PATH,PDF3_1_PATH);							    											    			
+									    	    	try {
+														Thread.sleep(8000);
+													} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+
+			 							    			try {
+															parent.completeAction(parent.OPEN_PDFFILE);
+														} catch (AWTException e) {
+															// TODO Auto-generated catch block
+															e.printStackTrace();
+														}
 		 							    			}		 					    	    		 		
 		 					    	    	};
 		 					    	    	one.start();
@@ -237,19 +308,42 @@ extends JDialog {
 					        			
 				        	     }
 				        	     else if(PDF4_ICON.contains(mousePt)) {
-			        	    		 if(!parent.getMultiple()) 
-				        	    	 		SkipOrDetail();
+						    			try {
+											parent.completeAction(parent.SELECT_PDFFILE);
+										} catch (AWTException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
+				        	    		 if(!parent.getMultiple()) {
+				        	    			 if(parent.repetitiveList.contains(parent.PASTE_TO_NOTEPAD))
+					        	    	 		SkipOrDetail();
+				        	    		 }
 					        			parent.setPDFCount(4);
 					        			if(parent.getDetails()) {
 		 					    	    	Thread one = new Thread() {
 		 					    	    		public void run() {
-				 		        					PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF4_PATH,PDF4_1_PATH);
-		 								    	    	try {
-		 													Thread.sleep(1000);
-		 												} catch (InterruptedException e) {
-		 													// TODO Auto-generated catch block
-		 													e.printStackTrace();
-		 												} 
+									    	    	robot.mouseMove(0, 0);
+									    	    	robot.mouseMove(PDF_ABS[4-1].x,PDF_ABS[4-1].y);
+									    	    	try {
+														Thread.sleep(500);
+														} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+														}
+									    	    	PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF4_PATH,PDF4_1_PATH);							    											    			
+									    	    	try {
+														Thread.sleep(8000);
+													} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+
+			 							    			try {
+															parent.completeAction(parent.OPEN_PDFFILE);
+														} catch (AWTException e) {
+															// TODO Auto-generated catch block
+															e.printStackTrace();
+														}
 		 							    			}		 					    	    		 		
 		 					    	    	};
 		 					    	    	one.start();
@@ -259,20 +353,43 @@ extends JDialog {
 		 		        				}
 				        	     }
 				        	     else if(PDF5_ICON.contains(mousePt)) {
-			        	    		 if(!parent.getMultiple()) 
-				        	    	 		SkipOrDetail();
+						    			try {
+											parent.completeAction(parent.SELECT_PDFFILE);
+										} catch (AWTException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
+				        	    		 if(!parent.getMultiple()) {
+				        	    			 if(parent.repetitiveList.contains(parent.PASTE_TO_NOTEPAD))
+					        	    	 		SkipOrDetail();
+				        	    		 }
 					        			parent.setPDFCount(5);
 					        			if(parent.getDetails()) {
 		 					    	    	Thread one = new Thread() {
 		 					    	    		public void run() {
-				 		        					PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF5_PATH,PDF5_1_PATH);
-		 								    	    	try {
-		 													Thread.sleep(1000);
-		 												} catch (InterruptedException e) {
-		 													// TODO Auto-generated catch block
-		 													e.printStackTrace();
-		 												}
-		 							    			}		 					    	    		 		
+									    	    	robot.mouseMove(0, 0);
+									    	    	robot.mouseMove(PDF_ABS[5-1].x,PDF_ABS[5-1].y);
+									    	    	try {
+														Thread.sleep(500);
+														} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+														}
+									    	    	PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF5_PATH,PDF5_1_PATH);							    											    			
+									    	    	try {
+														Thread.sleep(8000);
+													} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+
+			 							    			try {
+															parent.completeAction(parent.OPEN_PDFFILE);
+														} catch (AWTException e) {
+															// TODO Auto-generated catch block
+															e.printStackTrace();
+														}
+		 					    	    		}
 		 					    	    	};
 		 					    	    	one.start();
 		 		        				}
@@ -281,19 +398,42 @@ extends JDialog {
 		 		        				}
 				        	     }
 				        	     else if(PDF6_ICON.contains(mousePt)) {
-			        	    		 if(!parent.getMultiple()) 
+						    			try {
+											parent.completeAction(parent.SELECT_PDFFILE);
+										} catch (AWTException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
+			        	    		 if(!parent.getMultiple()) {
+			        	    			 if(parent.repetitiveList.contains(parent.PASTE_TO_NOTEPAD))
 				        	    	 		SkipOrDetail();
+			        	    		 }
 					        			parent.setPDFCount(6);
 					        			if(parent.getDetails()) {
 		 					    	    	Thread one = new Thread() {
 		 					    	    		public void run() {
-				 		        					PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF6_PATH,PDF6_1_PATH);
-		 								    	    	try {
-		 													Thread.sleep(1000);
-		 												} catch (InterruptedException e) {
-		 													// TODO Auto-generated catch block
-		 													e.printStackTrace();
-		 												} 
+									    	    	robot.mouseMove(0, 0);
+									    	    	robot.mouseMove(PDF_ABS[6-1].x,PDF_ABS[6-1].y);
+									    	    	try {
+														Thread.sleep(500);
+														} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+														}
+									    	    	PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF6_PATH,PDF6_1_PATH);							    											    			
+									    	    	try {
+														Thread.sleep(500);
+													} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+
+			 							    			try {
+															parent.completeAction(parent.OPEN_PDFFILE);
+														} catch (AWTException e) {
+															// TODO Auto-generated catch block
+															e.printStackTrace();
+														}
 		 							    			}		 					    	    		 		
 		 					    	    	};
 		 					    	    	one.start();
@@ -303,19 +443,43 @@ extends JDialog {
 		 		        				}
 				        	     }
 				        	     else if(PDF7_ICON.contains(mousePt)) {
-			        	    		 if(!parent.getMultiple()) 
-				        	    	 		SkipOrDetail();
+						    			try {
+											parent.completeAction(parent.SELECT_PDFFILE);
+										} catch (AWTException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
+				        	    		 if(!parent.getMultiple()) {
+				        	    			 if(parent.repetitiveList.contains(parent.PASTE_TO_NOTEPAD))
+					        	    	 		SkipOrDetail();
+				        	    		 }
 					        			parent.setPDFCount(7);
 					        			if(parent.getDetails()) {
 		 					    	    	Thread one = new Thread() {
 		 					    	    		public void run() {
-				 		        					PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF7_PATH,PDF7_1_PATH);
-		 								    	    	try {
-		 													Thread.sleep(1000);
-		 												} catch (InterruptedException e) {
-		 													// TODO Auto-generated catch block
-		 													e.printStackTrace();
-		 												}
+
+									    	    	robot.mouseMove(0, 0);
+									    	    	robot.mouseMove(PDF_ABS[7-1].x,PDF_ABS[7-1].y);
+									    	    	try {
+														Thread.sleep(500);
+														} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+														}
+									    	    	PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF7_PATH,PDF7_1_PATH);							    											    			
+									    	    	try {
+														Thread.sleep(8000);
+													} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+
+			 							    			try {
+															parent.completeAction(parent.OPEN_PDFFILE);
+														} catch (AWTException e) {
+															// TODO Auto-generated catch block
+															e.printStackTrace();
+														}
 		 							    			}		 					    	    		 		
 		 					    	    	};
 		 					    	    	one.start();
@@ -373,7 +537,14 @@ extends JDialog {
 					    		}
 					    		if(start<end) {
 					    			parent.setMultiple(true);
-			        	    	 	SkipOrDetail();
+					    			try {
+										parent.completeAction(parent.SELECT_PDFFILE);
+									} catch (AWTException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+		        	    			 if(parent.repetitiveList.contains(parent.PASTE_TO_NOTEPAD))
+		        	    				 SkipOrDetail();
 			        	    	 	if(parent.getDetails()) {
 			        	    	 		Thread one = new Thread() {
 					    	    		public void run() {		
@@ -390,19 +561,26 @@ extends JDialog {
 												}
 								    	    	robot.mouseMove(0, 0);
 								    	    	robot.mouseMove(PDF_ABS[i-1].x,PDF_ABS[i-1].y);
-								    	    	robot.delay(1000);
+								    	    	try {
+													Thread.sleep(500);
+													} catch (InterruptedException e) {
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+													}
 								    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
 								    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);							    											    			
 								    	    	try {
-													Thread.sleep(4000);
+													Thread.sleep(8000);
 												} catch (InterruptedException e) {
 													// TODO Auto-generated catch block
 													e.printStackTrace();
 												}
 							    			} 
 								    		parent.setMultiple(false);
+								    		parent.DoneAndContinue();
 								    		start=0;
 								    		end=0;
+						                	;
 					    	    		}	    		
 					    	    	};
 					    	    	one.start();
@@ -432,15 +610,24 @@ extends JDialog {
 													}
 								    			} 
 									    		parent.setMultiple(false);
+									    		parent.DoneAndContinue();
 									    		start=0;
 									    		end=0;
+							                	;
 						    	    		}	    		
 						    	    	};
 						    	    	one.start();
 			        	    	 	}
 					    		}else if(start>end) {
 					    			parent.setMultiple(true);
-			        	    	 	SkipOrDetail();
+					    			try {
+										parent.completeAction(parent.SELECT_PDFFILE);
+									} catch (AWTException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+		        	    			if(parent.repetitiveList.contains(parent.PASTE_TO_NOTEPAD))
+		        	    				 SkipOrDetail();
 			        	    	 	if(parent.getDetails()) {
 			        	    	 		Thread one = new Thread() {
 					    	    		public void run() {		
@@ -457,19 +644,26 @@ extends JDialog {
 												}
 								    	    	robot.mouseMove(0, 0);
 								    	    	robot.mouseMove(PDF_ABS[i-1].x,PDF_ABS[i-1].y);
-								    	    	robot.delay(1000);
+								    	    	try {
+													Thread.sleep(500);
+													} catch (InterruptedException e) {
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+													}
 								    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
 								    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);							    											    			
 								    	    	try {
-													Thread.sleep(4000);
+													Thread.sleep(8000);
 												} catch (InterruptedException e) {
 													// TODO Auto-generated catch block
 													e.printStackTrace();
 												}
 							    			} 
 								    		parent.setMultiple(false);
+								    		parent.DoneAndContinue();
 								    		start=0;
 								    		end=0;
+						                	;
 					    	    		}	    		
 					    	    	};
 					    	    	one.start();
@@ -498,8 +692,10 @@ extends JDialog {
 													}
 								    			} 
 									    		parent.setMultiple(false);
+									    		parent.DoneAndContinue();
 									    		start=0;
 									    		end=0;
+							                	;
 						    	    		}	    		
 						    	    	};
 						    	    	one.start();
@@ -526,12 +722,26 @@ extends JDialog {
                 	}
                 	if(selected.size()>0) {
                 		parent.setMultiple(true);
-        	    	 	SkipOrDetail();
+		    			try {
+							parent.completeAction(parent.SELECT_PDFFILE);
+						} catch (AWTException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+   	    			 	if(parent.repetitiveList.contains(parent.PASTE_TO_NOTEPAD))
+   	    			 		SkipOrDetail();
         	    	 	if(parent.getDetails()) {		
 			    	    	int selected_size=selected.size();
         	    	 		Thread one = new Thread() {
 		    	    		public void run() {		
 				    			for(int i=0;i<selected_size;i++) {
+					    	    	int pdfFile=selected.pollFirst()-1;					    											    			
+					    	    	try {
+										Thread.sleep(1000);
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 					    	    	robot.mouseMove(0, 0);
 					    	    	robot.mouseMove(20, 880);
 					    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
@@ -542,21 +752,28 @@ extends JDialog {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
 									}
-					    	    	int pdfFile=selected.pollFirst()-1;
 					    	    	//System.out.println(pdfFile);
 					    	    	robot.mouseMove(0, 0);
 					    	    	robot.mouseMove(PDF_ABS[pdfFile].x,PDF_ABS[pdfFile].y);
-					    	    	robot.delay(1000);
+					    			
+									try {
+									Thread.sleep(500);
+									} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+									}
 					    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
 					    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);					    											    			
 					    	    	try {
-										Thread.sleep(4000);
+										Thread.sleep(8000);
 									} catch (InterruptedException e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
 									}
 				    			} 
 			                	parent.setMultiple(false);
+					    		parent.DoneAndContinue();
+			                	;
 		    	    		}	    		
 		    	    	};
 		    	    	one.start();
@@ -586,6 +803,7 @@ extends JDialog {
 										}
 					    			} 
 				                	parent.setMultiple(false);
+						    		parent.DoneAndContinue();
 			    	    		}	    		
 			    	    	};
 			    	    	one.start();
@@ -622,18 +840,32 @@ extends JDialog {
    		 	PARENT.setDetails(true);
    		}
 	}
+
+
 	
 	private void SkipSingleDoc(Robot robot) {
-		robot.mouseMove(0, 0);
-    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
-    	robot.mouseMove(200, 200);
-    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
-    	robot.mousePress(InputEvent.BUTTON1_MASK);
-    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
-	    robot.keyPress(KeyEvent.VK_CONTROL);
-	    robot.keyPress(KeyEvent.VK_V);
-	    robot.keyRelease(KeyEvent.VK_V);
-	    robot.keyRelease(KeyEvent.VK_CONTROL);
+		Thread one = new Thread() {
+    		public void run() {
+    			robot.mouseMove(0, 0);
+    	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
+    	    	robot.mouseMove(200, 200);
+    	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
+    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
+    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
+    		    robot.keyPress(KeyEvent.VK_CONTROL);
+    		    robot.keyPress(KeyEvent.VK_V);
+    		    robot.keyRelease(KeyEvent.VK_V);
+    		    robot.keyRelease(KeyEvent.VK_CONTROL);
+    		    try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			PARENT.DoneAndContinue();
+    		}
+    	};
+    	one.start();
 	}
 }
 

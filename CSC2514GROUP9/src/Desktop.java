@@ -33,11 +33,15 @@ extends JFrame {
     public static boolean multiple=false;
 	private static int repetitive_count=0;
 	private boolean repetitive_detected=false;
+	public static PDFFolder pdfFolder;
+	public static Notepad notepad;
+	public Integer currentStepID=-1;
 	
-	private static LinkedList<ActionItem> actionList=new LinkedList<ActionItem>();
+	public static LinkedList<ActionItem> actionList=new LinkedList<ActionItem>();
 	//private static LinkedList<Integer> actionList;
-	private static LinkedList<Integer> repetitiveList=new LinkedList<Integer>();
+	public static LinkedList<Integer> repetitiveList=new LinkedList<Integer>();
 	
+	private LinkedList<Integer> actionQueue=new LinkedList<Integer>();
 	public Desktop() {
 		setSize(2736,1824);		
 		setLayout(new BorderLayout());
@@ -53,8 +57,23 @@ extends JFrame {
 	
 	public void addAction(ActionItem action) {
 		actionList.add(action);
+		actionQueue.add(action.getID());
+		System.out.println(actionQueue);
 		if(!do_not_bother && !PDF_USERDECISION)
 			checkRepetitive();
+	}
+	
+	public void completeAction(Integer actionID) throws AWTException {
+		int index=repetitiveList.indexOf(actionID);
+		if(index+1<repetitiveList.size()) {
+			currentStepID=index+1;			
+		}
+		else if(index+1==repetitiveList.size()){
+			currentStepID=-1;
+		 	if(!multiple) {
+		 		DoneAndContinue();
+		 	}
+		}
 	}
 	
 	private void checkRepetitive() {
@@ -69,7 +88,7 @@ extends JFrame {
 				if(current.getID()==compareTo.getID()) {
 					repeated_times++;
 				}
-				if(repeated_times==3) {
+				if(repeated_times==3 && current.getID()==SELECT_PDFFILE) {
 					repetitive_detected=true;
 					repetitiveList.add(current.getID());
 					start_action=current.getID();
@@ -83,14 +102,19 @@ extends JFrame {
 			}
 		}
 		if(repetitive_detected) {
+			LinkedList<Integer> candidate_list=new LinkedList<Integer>();
 			 for(int i=start_index+1;i<end_index;i++) {
-				 for(int j=i+1;j<end_index;j++) {
-					 if(actionList.get(i).getID()==actionList.get(j).getID()) {
-						 repetitiveList.add(actionList.get(i).getID());
+				 candidate_list.add(actionList.get(i).getID());			
+			 }
+			 while(!candidate_list.isEmpty()) {
+				 Integer currentActionID=candidate_list.pollFirst();
+				 for(int i=1;i<candidate_list.size();i++) {
+					 if(currentActionID==candidate_list.get(i)) {
+						 repetitiveList.add(currentActionID);
+						 candidate_list.remove(i);
 						 break;
 					 }
 				 }
-				
 			 }
 			 System.out.println("Repetitive Detected: "+repetitiveList);
 			 UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
@@ -103,12 +127,16 @@ extends JFrame {
 	    		    // yes option
 	    		 	setPDFUserDecision(true);
 	    		 	do_not_bother=true;
-	    		 	//System.out.println(parent.getPDFUserDecision());
+	    		 	if(repetitiveList.getFirst()==SELECT_PDFFILE) {
+	    		 		pdfFolder.toFront();
+	    		 		pdfFolder.repaint();
+	    		 		pdfFolder.requestFocus();
+	    		 	}
 	    		} else {
 	    		    // no option
 	    		 	setPDFUserDecision(false);
 	    		 	do_not_bother=true;
-	    		 	//System.out.println(parent.getPDFUserDecision());
+	    		 	
 	    		}
 		}
 	}
@@ -159,14 +187,43 @@ extends JFrame {
     	repetitive_count = count; 
     }
     
-    public void init() {
-        PDF_USERDECISION=false;
-        DETAILS=true;
-        PDF_COUNT=0;
-        multiple=false;    	
-        repetitive_count=0;
+    public void init() { 
+    PDF_USERDECISION=false;
+    DETAILS=true;
+    PDF_COUNT=0;
+    do_not_bother=false;
+    multiple=false;
+	repetitive_count=0;
+	repetitive_detected=false;
+	pdfFolder=null;
+	notepad=null;
+	currentStepID=-1;
+	
+	actionList.clear();
+	//private static LinkedList<Integer> actionList;
+	repetitiveList.clear();
+	actionQueue.clear();
     }
-    
+
+	public void DoneAndContinue(){
+   	 UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
+   	 UIManager.put("OptionPane.buttonFont", new Font("System", Font.PLAIN, 30));
+   	 if (JOptionPane.showConfirmDialog(null,
+                "The selected items were done! Do you want to continue the automation?",
+                "Task Done", 
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+   		    // yes option
+	    	robot.mouseMove(0, 0);
+	    	robot.mouseMove(20, 880);
+	    	robot.mousePress(InputEvent.BUTTON1_MASK);
+	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);	
+   		} else {
+   		    // no option
+   		 	setPDFUserDecision(false);
+   		}
+	}
+	
 	public static void main(String[] args) throws AWTException {
 		
 		Desktop desktop=new Desktop();
@@ -179,7 +236,7 @@ extends JFrame {
 	        	     if(PDF_FOLDER.contains(e.getPoint())) {
 		        	     //handle double click event.
 		        			try {
-								PDFFolder pdfFolder=new PDFFolder(desktop);
+								pdfFolder=new PDFFolder(desktop);
 							} catch (AWTException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -187,7 +244,7 @@ extends JFrame {
 	        	     }
 	        	     else if(NOTEPAD_ICON.contains(e.getPoint())) {
 		        	     //handle double click event.
-		        			Notepad notepad=new Notepad(desktop);
+		        			 notepad=new Notepad(desktop);
 	        	     }
 	        	}
 	        }
