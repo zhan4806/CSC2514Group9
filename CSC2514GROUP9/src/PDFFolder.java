@@ -39,13 +39,13 @@ extends JDialog {
 	public static final String PDF6_1_PATH="./imgs/pdf6-1.png";
 	public static final String PDF7_PATH="./imgs/pdf7.png";
 	public static final String PDF7_1_PATH="./imgs/pdf7-1.png";
-	public static final Point PDF1_ABS=new Point(268,525);
-	public static final Point PDF2_ABS=new Point(268,546);
-	public static final Point PDF3_ABS=new Point(268,567);
-	public static final Point PDF4_ABS=new Point(268,588);
-	public static final Point PDF5_ABS=new Point(268,609);
-	public static final Point PDF6_ABS=new Point(268,630);
-	public static final Point PDF7_ABS=new Point(268,651);
+	public static final Point PDF1_ABS=new Point(268*2,525*2);
+	public static final Point PDF2_ABS=new Point(268*2,546*2);
+	public static final Point PDF3_ABS=new Point(268*2,567*2);
+	public static final Point PDF4_ABS=new Point(268*2,588*2);
+	public static final Point PDF5_ABS=new Point(268*2,609*2);
+	public static final Point PDF6_ABS=new Point(268*2,630*2);
+	public static final Point PDF7_ABS=new Point(268*2,651*2);
 	public static final Point[] PDF_ABS= {PDF1_ABS,PDF2_ABS,PDF3_ABS,PDF4_ABS,PDF5_ABS,PDF6_ABS,PDF7_ABS};
 	
     private static Point mousePt=new Point(0,0);
@@ -192,7 +192,7 @@ extends JDialog {
 														}
 									    	    	PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF1_PATH,PDF1_1_PATH);							    											    			
 									    	    	try {
-														Thread.sleep(8000);
+														Thread.sleep((parent.repetitiveList.size())*2000);
 													} catch (InterruptedException e) {
 														// TODO Auto-generated catch block
 														e.printStackTrace();
@@ -210,6 +210,14 @@ extends JDialog {
 
 		 		        				}
 		 		        				else {
+
+						        			parent.lastPDF=1;
+							    	    	try {
+												Thread.sleep(500);
+											} catch (InterruptedException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+											}
 		 		        					SkipSingleDoc(robot);
 		 		        				}
 					        			
@@ -240,7 +248,7 @@ extends JDialog {
 														}
 									    	    	PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF2_PATH,PDF2_1_PATH);							    											    			
 									    	    	try {
-														Thread.sleep(8000);
+														Thread.sleep((parent.repetitiveList.size())*2000);
 													} catch (InterruptedException e) {
 														// TODO Auto-generated catch block
 														e.printStackTrace();
@@ -257,6 +265,14 @@ extends JDialog {
 		 					    	    	one.start();
 		 		        				}
 		 		        				else {
+
+						        			parent.lastPDF=2;
+							    	    	try {
+												Thread.sleep(500);
+											} catch (InterruptedException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+											}
 		 		        					SkipSingleDoc(robot);
 		 		        				}
 					        			
@@ -286,7 +302,7 @@ extends JDialog {
 														}
 									    	    	PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF3_PATH,PDF3_1_PATH);							    											    			
 									    	    	try {
-														Thread.sleep(8000);
+														Thread.sleep((parent.repetitiveList.size())*2000);
 													} catch (InterruptedException e) {
 														// TODO Auto-generated catch block
 														e.printStackTrace();
@@ -303,6 +319,13 @@ extends JDialog {
 		 					    	    	one.start();
 		 		        				}
 		 		        				else {
+						        			parent.lastPDF=3;
+							    	    	try {
+												Thread.sleep(500);
+											} catch (InterruptedException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+											}
 		 		        					SkipSingleDoc(robot);
 		 		        				}
 					        			
@@ -332,7 +355,7 @@ extends JDialog {
 														}
 									    	    	PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF4_PATH,PDF4_1_PATH);							    											    			
 									    	    	try {
-														Thread.sleep(8000);
+														Thread.sleep((parent.repetitiveList.size())*2000);
 													} catch (InterruptedException e) {
 														// TODO Auto-generated catch block
 														e.printStackTrace();
@@ -349,6 +372,13 @@ extends JDialog {
 		 					    	    	one.start();
 		 		        				}
 		 		        				else {
+						        			parent.lastPDF=4;
+							    	    	try {
+												Thread.sleep(500);
+											} catch (InterruptedException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+											}
 		 		        					SkipSingleDoc(robot);
 		 		        				}
 				        	     }
@@ -377,7 +407,7 @@ extends JDialog {
 														}
 									    	    	PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF5_PATH,PDF5_1_PATH);							    											    			
 									    	    	try {
-														Thread.sleep(8000);
+														Thread.sleep((parent.repetitiveList.size())*2000);
 													} catch (InterruptedException e) {
 														// TODO Auto-generated catch block
 														e.printStackTrace();
@@ -394,6 +424,13 @@ extends JDialog {
 		 					    	    	one.start();
 		 		        				}
 		 		        				else {
+						        			parent.lastPDF=5;
+							    	    	try {
+												Thread.sleep(500);
+											} catch (InterruptedException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+											}
 		 		        					SkipSingleDoc(robot);
 		 		        				}
 				        	     }
@@ -422,7 +459,7 @@ extends JDialog {
 														}
 									    	    	PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF6_PATH,PDF6_1_PATH);							    											    			
 									    	    	try {
-														Thread.sleep(500);
+														Thread.sleep((parent.repetitiveList.size())*2000);
 													} catch (InterruptedException e) {
 														// TODO Auto-generated catch block
 														e.printStackTrace();
@@ -439,6 +476,13 @@ extends JDialog {
 		 					    	    	one.start();
 		 		        				}
 		 		        				else {
+						        			parent.lastPDF=6;
+							    	    	try {
+												Thread.sleep(500);
+											} catch (InterruptedException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+											}
 		 		        					SkipSingleDoc(robot);
 		 		        				}
 				        	     }
@@ -468,7 +512,7 @@ extends JDialog {
 														}
 									    	    	PDFReader pdfReader=new PDFReader(parent,parent.getPDFUserDecision(),PDF7_PATH,PDF7_1_PATH);							    											    			
 									    	    	try {
-														Thread.sleep(8000);
+														Thread.sleep((parent.repetitiveList.size())*2000);
 													} catch (InterruptedException e) {
 														// TODO Auto-generated catch block
 														e.printStackTrace();
@@ -485,6 +529,13 @@ extends JDialog {
 		 					    	    	one.start();
 		 		        				}
 		 		        				else {
+						        			parent.lastPDF=7;
+							    	    	try {
+												Thread.sleep(500);
+											} catch (InterruptedException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+											}
 		 		        					SkipSingleDoc(robot);
 		 		        				}
 				        	     }
@@ -570,7 +621,7 @@ extends JDialog {
 								    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
 								    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);							    											    			
 								    	    	try {
-													Thread.sleep(8000);
+													Thread.sleep((parent.repetitiveList.size())*2000);
 												} catch (InterruptedException e) {
 													// TODO Auto-generated catch block
 													e.printStackTrace();
@@ -588,7 +639,7 @@ extends JDialog {
 			        	    	 	else {
 						    	    	robot.mouseMove(0, 0);
 						    	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
-						    	    	robot.mouseMove(200, 200);
+						    	    	robot.mouseMove(400, 400);
 						    	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
 						    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
 						    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);			        	    	 		
@@ -596,7 +647,13 @@ extends JDialog {
 						    	    		public void run() {							    	    			
 						    	    			for(int i=start;i<end+1;i++) {
 									    	    	System.out.println(i);
-								        			parent.setPDFCount(i);
+								        			parent.lastPDF=i;
+									    	    	try {
+														Thread.sleep(500);
+													} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
 									    	    	robot.keyPress(KeyEvent.VK_CONTROL);
 									    	    	robot.keyPress(KeyEvent.VK_V);
 									    	    	robot.keyRelease(KeyEvent.VK_V);
@@ -653,7 +710,7 @@ extends JDialog {
 								    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
 								    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);							    											    			
 								    	    	try {
-													Thread.sleep(8000);
+													Thread.sleep((parent.repetitiveList.size())*2000);
 												} catch (InterruptedException e) {
 													// TODO Auto-generated catch block
 													e.printStackTrace();
@@ -671,7 +728,7 @@ extends JDialog {
 			        	    	 	else {
 						    	    	robot.mouseMove(0, 0);
 						    	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
-						    	    	robot.mouseMove(200, 200);
+						    	    	robot.mouseMove(400, 400);
 						    	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
 						    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
 						    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);
@@ -679,7 +736,13 @@ extends JDialog {
 						    	    		public void run() {							    	    			
 						    	    			for(int i=start;i>end-1;i--) {
 									    	    	System.out.println(i);
-								        			parent.setPDFCount(i);
+								        			parent.lastPDF=i;
+									    	    	try {
+														Thread.sleep(500);
+													} catch (InterruptedException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
 									    	    	robot.keyPress(KeyEvent.VK_CONTROL);
 									    	    	robot.keyPress(KeyEvent.VK_V);
 									    	    	robot.keyRelease(KeyEvent.VK_V);
@@ -765,7 +828,7 @@ extends JDialog {
 					    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
 					    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);					    											    			
 					    	    	try {
-										Thread.sleep(8000);
+										Thread.sleep((parent.repetitiveList.size())*2000);
 									} catch (InterruptedException e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
@@ -781,7 +844,7 @@ extends JDialog {
         	    	 	else {
 			    	    	robot.mouseMove(0, 0);
 			    	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
-			    	    	robot.mouseMove(200, 200);
+			    	    	robot.mouseMove(400, 400);
 			    	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
 			    	    	robot.mousePress(InputEvent.BUTTON1_MASK);
 			    	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);	
@@ -790,7 +853,13 @@ extends JDialog {
 			    	    		public void run() {
 					    			for(int i=0;i<selected_size;i++) {
 						    	    	System.out.println(i);
-					        			parent.setPDFCount(selected.pollFirst());
+					        			parent.lastPDF=selected.pollFirst();
+						    	    	try {
+											Thread.sleep(500);
+										} catch (InterruptedException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
 						    	    	robot.keyPress(KeyEvent.VK_CONTROL);
 						    	    	robot.keyPress(KeyEvent.VK_V);
 						    	    	robot.keyRelease(KeyEvent.VK_V);
@@ -848,7 +917,7 @@ extends JDialog {
     		public void run() {
     			robot.mouseMove(0, 0);
     	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
-    	    	robot.mouseMove(200, 200);
+    	    	robot.mouseMove(400, 400);
     	    	//System.out.println(MouseInfo.getPointerInfo().getLocation());
     	    	robot.mousePress(InputEvent.BUTTON1_MASK);
     	    	robot.mouseRelease(InputEvent.BUTTON1_MASK);

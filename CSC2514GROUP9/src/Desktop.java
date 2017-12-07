@@ -36,6 +36,7 @@ extends JFrame {
 	public static PDFFolder pdfFolder;
 	public static Notepad notepad;
 	public Integer currentStepID=-1;
+	public Integer lastPDF=-1;
 	
 	public static LinkedList<ActionItem> actionList=new LinkedList<ActionItem>();
 	//private static LinkedList<Integer> actionList;
@@ -66,9 +67,11 @@ extends JFrame {
 	public void completeAction(Integer actionID) throws AWTException {
 		int index=repetitiveList.indexOf(actionID);
 		if(index+1<repetitiveList.size()) {
-			currentStepID=index+1;			
+			currentStepID=index+1;	
+			System.out.println(repetitiveList);
 		}
 		else if(index+1==repetitiveList.size()){
+			System.out.println(repetitiveList);
 			currentStepID=-1;
 		 	if(!multiple) {
 		 		DoneAndContinue();
@@ -108,7 +111,7 @@ extends JFrame {
 			 }
 			 while(!candidate_list.isEmpty()) {
 				 Integer currentActionID=candidate_list.pollFirst();
-				 for(int i=1;i<candidate_list.size();i++) {
+				 for(int i=0;i<candidate_list.size();i++) {
 					 if(currentActionID==candidate_list.get(i)) {
 						 repetitiveList.add(currentActionID);
 						 candidate_list.remove(i);
@@ -167,10 +170,11 @@ extends JFrame {
     }
 
     public void setPDFCount( int count ){
+    	System.out.println(PDF_COUNT+" "+lastPDF);
     	PDF_COUNT = count; 
+    	System.out.println(PDF_COUNT+" "+lastPDF);
     }
     
-
 	public Robot getRobot(){
         return robot;
     }

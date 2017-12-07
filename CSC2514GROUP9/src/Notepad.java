@@ -34,7 +34,7 @@ extends JDialog  {
 		this.add(txtArea);
 		Action doClipboard = new AbstractAction() {
 	        public void actionPerformed(ActionEvent e) {	          
-	        	int line_count=parent.getPDFCount();
+	        	int line_count=parent.lastPDF;
 	    	     String title=PDF_TITLES[line_count-1];
 	    	     if(!parent.getPDFUserDecision()) {
 		    	     last_step.addLast(txtArea.getText());
