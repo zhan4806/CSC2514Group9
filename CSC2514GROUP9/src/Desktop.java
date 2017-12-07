@@ -58,7 +58,9 @@ extends JFrame {
 	}
 	
 	private void checkRepetitive() {
-		LinkedList<Integer> twice_items=new LinkedList<Integer>();
+		Integer start_action;
+		int start_index=-1;
+		int end_index=-1;
 		for(int i=0; i<actionList.size();i++) {
 			ActionItem current=actionList.get(i);
 			int repeated_times=1;
@@ -69,24 +71,28 @@ extends JFrame {
 				}
 				if(repeated_times==3) {
 					repetitive_detected=true;
+					repetitiveList.add(current.getID());
+					start_action=current.getID();
+					start_index=i;
+					end_index=j;
 					break;
-				}
-				else if(repeated_times==2) {
-					twice_items.add(i);
 				}
 			}
 			if(repetitive_detected) {
-				repetitiveList.add(i);
-				for(int k=0;k<twice_items.size();k++) {
-					if(twice_items.get(k)!=actionList.get(i).getID())
-						repetitiveList.add(twice_items.get(k));
-				}
 				break;
 			}
 		}
 		if(repetitive_detected) {
-			System.out.println(repetitiveList);
-			UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
+			 for(int i=start_index;i<end_index;i++) {
+				 for(int j=i;j<end_index;j++) {
+					 if(actionList.get(i).getID()==actionList.get(j).getID()) {
+						 repetitiveList.add(actionList.get(i).getID());
+					 }
+				 }
+				
+			 }
+			 System.out.println("Repetitive Detected: "+repetitiveList);
+			 UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 30));
 	    	 UIManager.put("OptionPane.buttonFont", new Font("System", Font.PLAIN, 30));
 	    	 if (JOptionPane.showConfirmDialog(null,
                     "Repetitive task detected, do you want to automate it?",
@@ -95,6 +101,7 @@ extends JFrame {
                     JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 	    		    // yes option
 	    		 	setPDFUserDecision(true);
+	    		 	do_not_bother=true;
 	    		 	//System.out.println(parent.getPDFUserDecision());
 	    		} else {
 	    		    // no option

@@ -58,11 +58,11 @@ extends JDialog {
 	    		float distance = (float) Math.sqrt(dx*dx+dy*dy);
               if(TITLE.contains(e.getPoint())&&TITLE.contains(mousePt)&&distance>100) {  
             	 // System.out.println("Dragged, PDFReader");
-            	  background.setIcon(new ImageIcon(second_img));            	  
-              }
-              if(!parent.getPDFUserDecision()) {
-         	      ActionItem action= new ActionItem(parent.SELECT_TITLE,self);
-         	      parent.addAction(action);          	  
+            	  background.setIcon(new ImageIcon(second_img));   
+                  if(!parent.getPDFUserDecision()) {
+             	      ActionItem action= new ActionItem(parent.SELECT_TITLE,self);
+             	      parent.addAction(action);          	  
+                  }         	  
               }
           }
 	    });
